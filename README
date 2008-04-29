@@ -1,0 +1,9 @@
+Safemode
+by Sven Fuchs and Peter Cooper
+
+NOTE:
+
+This code and all of the Safemode library's code was initially written by
+Sven Fuchs to allow Haml to have a safe mode, but was then modified
+and re-structured by Peter Cooper and Sven Fuchs to extend the idea to 
+generic Ruby eval situations.
