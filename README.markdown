@@ -8,7 +8,7 @@ Ruby2Ruby. Provides Rails ActionView template handlers for ERB and Haml.
 This library is still highly experimental. Only use it at your own risk for
 anything beyond experiments and playing.
 
-That said, please *do* play with it, read and run the unit tests and provide
+That said, please **do** play with it, read and run the unit tests and provide
 feedback to help make it waterproof and finally suitable for serious purposes.
 
 ### Usage
