@@ -18,10 +18,10 @@ For manual evaluation of Ruby code and ERB templates see demo.rb
 You can use the ActionView template handlers by registering them, e.g., in 
 a config/initializer file like so:
 
-  # in config/intializer/safemode\_tempate\_handlers.rb
-  ActionView::Base.register_template_handler :serb, ActionView::TemplateHandlers::SafeErb
-  ActionView::Base.register_template_handler :haml, ActionView::TemplateHandlers::SafeHaml
-  
+    # in config/intializer/safemode_tempate_handlers.rb
+    ActionView::Base.register_template_handler :serb, ActionView::TemplateHandlers::SafeErb
+    ActionView::Base.register_template_handler :haml, ActionView::TemplateHandlers::SafeHaml
+
 If you register the ERB template handler for the file extension :erb be aware
 that this most probably will break when your application tries to render an
 error message in development mode (because Rails will try to use the handler
@@ -31,11 +31,11 @@ You will then have to "whitelist" all method calls to the objects that are
 registered as template variables by explicitely allowing access to them. You
 can do that by defining a Safemode::Jail class for your classes, like so:
 
-  class User
-    class Jail < Safemode::Jail
-      allow :name
-    end
-  end  
+    class User
+      class Jail < Safemode::Jail
+        allow :name
+      end
+    end  
   
 This will allow your template users to access the name method on your User 
 objects.
@@ -43,9 +43,9 @@ objects.
 For more details about the concepts behind Safemode please refer to the 
 following blog posts until a more comprehensive writeup is available:
 
-* Initial reasoning: http://www.artweb-design.de/2008/2/5/sexy-theme-templating-with-haml-safemode-finally
-* Refined concept: http://www.artweb-design.de/2008/2/17/sending-ruby-to-the-jail-an-attemp-on-a-haml-safemode
-* ActionView ERB handler: http://www.artweb-design.de/2008/4/22/an-erb-safemode-handler-for-actionview
+* Initial reasoning: [http://www.artweb-design.de/2008/2/5/sexy-theme-templating-with-haml-safemode-finally](http://www.artweb-design.de/2008/2/5/sexy-theme-templating-with-haml-safemode-finally)
+* Refined concept: [http://www.artweb-design.de/2008/2/17/sending-ruby-to-the-jail-an-attemp-on-a-haml-safemode](http://www.artweb-design.de/2008/2/17/sending-ruby-to-the-jail-an-attemp-on-a-haml-safemode)
+* ActionView ERB handler: [http://www.artweb-design.de/2008/4/22/an-erb-safemode-handler-for-actionview](http://www.artweb-design.de/2008/4/22/an-erb-safemode-handler-for-actionview)
   
 ### Dependencies
 
@@ -58,7 +58,7 @@ RubyParser has the advantage of being pure Ruby and not having any further
 system dependencies while ParseTree is is a C extension that uses RubyInline.
 
 As of writing RubyParser alters StringIO and thus breaks usage with Rails.
-See http://www.zenspider.com/pipermail/parsetree/2008-April/000026.html
+See [http://www.zenspider.com/pipermail/parsetree/2008-April/000026.html](http://www.zenspider.com/pipermail/parsetree/2008-April/000026.html)
 
 A patch is included that fixes this issue and can be applied to RubyParser.
 See lib/ruby\_parser\_string\_io\_patch.diff
