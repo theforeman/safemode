@@ -14,9 +14,8 @@ module ActionView
       @handler = self.class.handler_class_for_template(self).new(@view)
     end
   
-    def self.register_template_handler(extension, klass, options = nil)
-      handler = options.nil? ? klass : options.update(:class => klass)
-      @@template_handlers[extension.to_sym] = handler
+    def self.register_template_handler(extension, klass, options = {})
+      @@template_handlers[extension.to_sym] = options.update(:class => klass)
       ActionView::TemplateFinder.update_extension_cache_for(extension.to_s)
     end
 
