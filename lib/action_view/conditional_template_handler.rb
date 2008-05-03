@@ -21,7 +21,11 @@ module ActionView
 
     def self.handler_class_for_template(template)
       if template.extension && handler = @@template_handlers[template.extension.to_sym]
-        return handler[:class] if eval_handler_conditions(template, handler)
+        if handler.is_a? Hash
+          return handler[:class] if eval_handler_conditions(template, handler)
+        else
+          return handler
+        end
       end
       @@default_template_handlers      
     end
