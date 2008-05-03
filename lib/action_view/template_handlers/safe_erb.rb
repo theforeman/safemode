@@ -4,6 +4,7 @@ require 'erb'
 module ActionView
   module TemplateHandlers
     class SafeErb < TemplateHandler
+      include Compilable rescue nil # does not exist prior Rails 2.1
       include SafemodeHandler
       
       def self.line_offset
@@ -11,7 +12,11 @@ module ActionView
       end
       
       def compile(template)
-        code = ::ERB.new(template, nil, @view.erb_trim_mode).src
+        # Rails 2.0 passes the template source, while Rails 2.1 passes the
+        # template instance
+        src = template.respond_to?(:source) ? template.source : template
+        
+        code = ::ERB.new(src, nil, @view.erb_trim_mode).src
         code.gsub!('\\','\\\\\\') # backslashes would disappear in compile_template/modul_eval, so we escape them
 
         # wow, this sucks. ruby gets totally confused about backtrace line numbers
