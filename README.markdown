@@ -1,6 +1,6 @@
 ## Safemode
 
-A library for safe evaluation of Ruby code based on ParseTree/RubyParser and
+A library for safe evaluation of Ruby code based on RubyParser and
 Ruby2Ruby. Provides Rails ActionView template handlers for ERB and Haml.
 
 ### Word of warning
@@ -51,11 +51,8 @@ following blog posts until a more comprehensive writeup is available:
 
 Requires the gems:
 
-* either ParseTree or RubyParser
-* Ruby2Ruby 
-
-RubyParser has the advantage of being pure Ruby and not having any further
-system dependencies while ParseTree is is a C extension that uses RubyInline.
+* RubyParser
+* Ruby2Ruby
 
 As of writing RubyParser alters StringIO and thus breaks usage with Rails.
 See [http://www.zenspider.com/pipermail/parsetree/2008-April/000026.html](http://www.zenspider.com/pipermail/parsetree/2008-April/000026.html)

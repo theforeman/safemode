@@ -1,6 +1,7 @@
 module Safemode
   class Parser < Ruby2Ruby
-    @@parser = defined?(RubyParser) ? 'RubyParser' : 'ParseTree'
+    # @@parser = defined?(RubyParser) ? 'RubyParser' : 'ParseTree'
+    @@parser = 'RubyParser'
     
     class << self
       def jail(code, allowed_fcalls = [])
@@ -11,8 +12,8 @@ module Safemode
       
       def parse(code)
         case @@parser
-        when 'ParseTree'
-          ParseTree.translate(code)
+        # when 'ParseTree'
+        #   ParseTree.translate(code)
         when 'RubyParser'
           RubyParser.new.parse(code)
         else
