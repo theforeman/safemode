@@ -48,7 +48,7 @@ module TestHelper
         "load('/path/to/file')", "require 'something'",
         "loop{}",
         "open('/etc/passwd'){|f| f.read}",
-        "p 'text'", "pretty_inspect(self)",
+        "p 'text'", "pretty_inspect",
         # "print 'text'", "puts 'text'", allowed and buffered these (see ScopeObject)
         "printf 'text'", "putc 'a'", 
         "raise RuntimeError, 'should not happen'",

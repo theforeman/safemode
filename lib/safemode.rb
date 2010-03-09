@@ -41,7 +41,7 @@ module Safemode
     def eval(code, assigns = {}, locals = {}, &block)
       code = Parser.jail(code)
       binding = @scope.bind(assigns, locals, &block)
-      result = Kernel.eval code, binding, @filename || __FILE__, @line || __LINE__
+      result = Kernel.eval(code, binding, @filename || __FILE__, @line || __LINE__)
     end
     
     def output
