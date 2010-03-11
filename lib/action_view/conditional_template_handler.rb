@@ -1,6 +1,6 @@
 module ActionView
-  class Template    
-    def initialize(view, path, use_full_path, locals = {})
+  class Template
+    def initialize(view, path, use_full_path = true, locals = {})
       @view = view
       @finder = @view.finder
 
@@ -13,7 +13,7 @@ module ActionView
       @locals = locals || {}
       @handler = self.class.handler_class_for_template(self).new(@view)
     end
-  
+
     def self.register_template_handler(extension, klass, options = {})
       @@template_handlers[extension.to_sym] = options.update(:class => klass)
       ActionView::TemplateFinder.update_extension_cache_for(extension.to_s)
