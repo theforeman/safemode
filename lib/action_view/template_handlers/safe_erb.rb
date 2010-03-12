@@ -33,9 +33,9 @@ module ActionView
           code = %Q(#{code});
 
           box = Safemode::Box.new(self, methods, #{filename.inspect}, 0)
-          box.eval(code, assigns, local_assigns, &lambda{ yield })
+          box.eval(code, assigns, local_assigns, &lambda{ |*args| yield(*args) })
         CODE
-        puts code
+        # puts code
         code
       end
     end
