@@ -16,11 +16,11 @@ feedback to help make it waterproof and finally suitable for serious purposes.
 For manual evaluation of Ruby code and ERB templates see demo.rb
 
 You can use the ActionView template handlers by registering them, e.g., in 
-a config/initializer file like so:
+a config/initializer file like this:
 
     # in config/intializer/safemode_tempate_handlers.rb
-    ActionView::Base.register_template_handler :serb, ActionView::TemplateHandlers::SafeErb
-    ActionView::Base.register_template_handler :haml, ActionView::TemplateHandlers::SafeHaml
+    ActionView::Template.register_template_handler :serb, ActionView::TemplateHandlers::SafeErb
+    ActionView::Template.register_template_handler :haml, ActionView::TemplateHandlers::SafeHaml
 
 If you register the ERB template handler for the file extension :erb be aware
 that this most probably will break when your application tries to render an
