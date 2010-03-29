@@ -1,3 +1,11 @@
+# optional libraries
+%w[ redgreen ].each do |lib|
+  begin
+    require lib
+  rescue LoadError
+  end
+end
+
 task :default => [:test]
 
 task :test do
