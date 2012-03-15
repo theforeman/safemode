@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "safemode"
-  s.version = "0.0.0"
+  s.version = "1.0.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Sven Fuchs"]
@@ -16,6 +16,8 @@ Gem::Specification.new do |s|
     "README.markdown"
   ]
   s.files = [
+    "Gemfile",
+    "Gemfile.lock",
     "LICENCSE",
     "README.markdown",
     "Rakefile",
@@ -36,6 +38,7 @@ Gem::Specification.new do |s|
     "lib/safemode/jail.rb",
     "lib/safemode/parser.rb",
     "lib/safemode/scope.rb",
+    "safemode.gemspec",
     "test/test_all.rb",
     "test/test_erb_eval.rb",
     "test/test_helper.rb",
@@ -60,6 +63,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.8.3"])
       s.add_development_dependency(%q<rcov>, [">= 0"])
+      s.add_development_dependency(%q<rake>, [">= 0"])
     else
       s.add_dependency(%q<ruby2ruby>, [">= 0"])
       s.add_dependency(%q<ruby_parser>, [">= 0"])
@@ -68,6 +72,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.8.3"])
       s.add_dependency(%q<rcov>, [">= 0"])
+      s.add_dependency(%q<rake>, [">= 0"])
     end
   else
     s.add_dependency(%q<ruby2ruby>, [">= 0"])
@@ -77,6 +82,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.8.3"])
     s.add_dependency(%q<rcov>, [">= 0"])
+    s.add_dependency(%q<rake>, [">= 0"])
   end
 end
 

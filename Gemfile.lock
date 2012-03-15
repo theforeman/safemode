@@ -30,6 +30,7 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 1.0.0)
   jeweler (~> 1.8.3)
+  rake
   rcov
   rdoc (~> 3.12)
   ruby2ruby
