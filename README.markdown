@@ -11,6 +11,11 @@ anything beyond experiments and playing.
 That said, please **do** play with it, read and run the unit tests and provide
 feedback to help make it waterproof and finally suitable for serious purposes.
 
+### Installation
+
+safemode is available as gem, therefore you can use bundler or gem install to the
+tool. The above warning still applies.
+
 ### Usage
 
 For manual evaluation of Ruby code and ERB templates see demo.rb
@@ -35,8 +40,8 @@ can do that by defining a Safemode::Jail class for your classes, like so:
       class Jail < Safemode::Jail
         allow :name
       end
-    end  
-  
+    end
+
 This will allow your template users to access the name method on your User 
 objects.
 
@@ -46,7 +51,7 @@ following blog posts until a more comprehensive writeup is available:
 * Initial reasoning: [http://www.artweb-design.de/2008/2/5/sexy-theme-templating-with-haml-safemode-finally](http://www.artweb-design.de/2008/2/5/sexy-theme-templating-with-haml-safemode-finally)
 * Refined concept: [http://www.artweb-design.de/2008/2/17/sending-ruby-to-the-jail-an-attemp-on-a-haml-safemode](http://www.artweb-design.de/2008/2/17/sending-ruby-to-the-jail-an-attemp-on-a-haml-safemode)
 * ActionView ERB handler: [http://www.artweb-design.de/2008/4/22/an-erb-safemode-handler-for-actionview](http://www.artweb-design.de/2008/4/22/an-erb-safemode-handler-for-actionview)
-  
+
 ### Dependencies
 
 Requires the gems:
@@ -64,8 +69,12 @@ See lib/ruby\_parser\_string\_io\_patch.diff
 
 * Sven Fuchs - Maintainer
 * Peter Cooper
+* Ohad Levy
+* Matthias Viehweger
 
-This code and all of the Safemode library's code was initially written by 
+This code and all of the Safemode library's code was initially written by
 Sven Fuchs to allow Haml to have a safe mode. It was then modified and
 re-structured by Peter Cooper and Sven Fuchs to extend the idea to generic
 Ruby eval situations.
+
+Thanks to Ohad Levy for gemifying it.
