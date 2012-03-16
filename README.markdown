@@ -69,12 +69,14 @@ See lib/ruby\_parser\_string\_io\_patch.diff
 
 * Sven Fuchs - Maintainer
 * Peter Cooper
-* Ohad Levy
 * Matthias Viehweger
+* Ohad Levy
+* Kingsley Hendrickse
 
 This code and all of the Safemode library's code was initially written by
 Sven Fuchs to allow Haml to have a safe mode. It was then modified and
 re-structured by Peter Cooper and Sven Fuchs to extend the idea to generic
 Ruby eval situations.
 
-Thanks to Ohad Levy for gemifying it.
+Thanks to Ohad Levy for gemifying the project and Kingsley Hendrickse for
+securing the right gem name on rubygems.org.

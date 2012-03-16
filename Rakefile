@@ -28,7 +28,13 @@ Jeweler::Tasks.new do |gem|
   gem.summary = %Q{A library for safe evaluation of Ruby code based on ParseTree/RubyParser and Ruby2Ruby}
   gem.description = %Q{A library for safe evaluation of Ruby code based on RubyParser and Ruby2Ruby. Provides Rails ActionView template handlers for ERB and Haml.}
   gem.email = "ohadlevy@gmail.com"
-  gem.authors = ["Sven Fuchs"]
+  gem.authors = [
+    "Sven Fuchs",
+    "Peter Cooper",
+    "Matthias Viehweger",
+    "Kingsley Hendrickse",
+    "Ohad Levy",
+  ]
   # dependencies defined in Gemfile
 end
 Jeweler::RubygemsDotOrgTasks.new
