@@ -36,7 +36,7 @@ module Safemode
       receiver = jail process_call_receiver(exp)
       name = exp.shift
       args = process_call_args(exp)
-      process_call_code(receiver, name, args)        
+      process_call_code(receiver, name, args)
     end
     
     def process_fcall(exp)
@@ -79,6 +79,8 @@ module Safemode
                    :iasgn, # iasgn is sometimes allowed
                    # not sure about self ...
                    :self,
+                   # :args is now used for block parameters
+                   :args,
                    # unnecessarily advanced?
                    :argscat, :argspush, :splat, :block_pass,
                    :op_asgn1, :op_asgn2, :op_asgn_and, :op_asgn_or,
@@ -86,9 +88,10 @@ module Safemode
                    :block ]
 
     disallowed = [ # :self,  # self doesn't seem to be needed for vcalls?
-                   :const, :defn, :defs, :alias, :valias, :undef, :class, :attrset,
+                   # see below for :const handling
+                   :defn, :defs, :alias, :valias, :undef, :class, :attrset,
                    :module, :sclass, :colon2, :colon3,
-                   :fbody, :scope,  :args, :block_arg, :postexe,
+                   :fbody, :scope, :block_arg, :postexe,
                    :redo, :retry, :begin, :rescue, :resbody, :ensure,
                    :defined, :super, :zsuper, :return,
                    :dmethod, :bmethod, :to_ary, :svalue, :match,
@@ -102,10 +105,17 @@ module Safemode
     # :ifunc, :method, :last, :opt_n, :cfunc, :newline, :alloca, :memo, :cref
                    
     disallowed.each do |name| 
-      define_method "process_#{name}" do
-        code = super
+      define_method "process_#{name}" do |arg|
+        code = super(arg)
         raise_security_error(name, code)
       end
+    end
+
+    # handling of Encoding constants in ruby 1.9.
+    # Note: ruby_parser evaluates __ENCODING__ to :const Encoding::UTF_8
+    def process_const(arg)
+      raise_security_error("constant", super(arg)) unless (RUBY_VERSION >= "1.9" and arg.sexp_type.class == Encoding)
+      "Encoding::#{super(arg).gsub('-', '_')}"
     end
     
     def raise_security_error(type, info)
@@ -124,14 +134,17 @@ module Safemode
     end
 
     def process_call_args(exp)
-      args_exp = exp.shift rescue nil
-      if args_exp && args_exp.first == :array # FIX
-        args = "#{process(args_exp)[1..-2]}"
-      else
-        args = process args_exp
-        args = nil if args.empty?
+      args = []
+      while not exp.empty? do
+        args_exp = exp.shift
+        if args_exp && args_exp.first == :array # FIX
+          processed = "#{process(args_exp)[1..-2]}"
+        else
+          processed = process args_exp
+        end
+        args << processed unless (processed.nil? or processed.empty?)
       end
-      args      
+      args.empty? ? nil : args.join(", ")
     end
 
     def process_call_code(receiver, name, args)

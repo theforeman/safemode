@@ -28,7 +28,7 @@ class TestSafemodeEval < Test::Unit::TestCase
   end
   
   def test_should_allow_method_access_on_locals
-    assert_nothing_raised{ @box.eval "article.title", {}, @locals }
+    assert_nothing_raised{ @box.eval("article.title", {}, @locals) }
   end
   
   def test_should_not_raise_on_if_using_return_values
