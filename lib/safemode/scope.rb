@@ -29,10 +29,10 @@ module Safemode
     def output
       @_safemode_output
     end
-    
+
     def method_missing(method, *args, &block)
       if @locals.has_key?(method)
-        @locals[method] 
+        @locals[method]
       elsif @delegate_methods.include?(method)
         @delegate.send method, *unjail_args(args), &block
       else
@@ -54,5 +54,5 @@ module Safemode
           arg.class.name =~ /::Jail$/ ? arg.instance_variable_get(:@source) : arg
         end
       end
-  end 
+  end
 end

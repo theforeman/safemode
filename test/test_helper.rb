@@ -1,3 +1,8 @@
+if RUBY_VERSION >= '1.9'and ENV['COVERAGE']
+  require 'simplecov'
+  SimpleCov.start {add_filter 'test_'}
+end
+
 $LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'rubygems'
@@ -95,6 +100,10 @@ class Article
   
   def comments
     [Comment.new(self), Comment.new(self)]
+  end
+
+  def method_missing(method, *args, &block)
+    super(method, *args, &block)
   end
 end
 

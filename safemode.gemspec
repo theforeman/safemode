@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "safemode"
-  s.version = "1.0.1"
+  s.version = "1.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Sven Fuchs", "Peter Cooper", "Matthias Viehweger", "Kingsley Hendrickse", "Ohad Levy"]
-  s.date = "2012-03-16"
+  s.date = "2012-10-24"
   s.description = "A library for safe evaluation of Ruby code based on RubyParser and Ruby2Ruby. Provides Rails ActionView template handlers for ERB and Haml."
   s.email = "ohadlevy@gmail.com"
   s.extra_rdoc_files = [
@@ -56,31 +56,34 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<ruby2ruby>, [">= 0"])
-      s.add_runtime_dependency(%q<ruby_parser>, [">= 0"])
+      s.add_runtime_dependency(%q<ruby2ruby>, [">= 2.0.0.b1"])
+      s.add_runtime_dependency(%q<ruby_parser>, [">= 3.0.0.a9"])
       s.add_development_dependency(%q<shoulda>, [">= 0"])
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.8.3"])
       s.add_development_dependency(%q<rcov>, [">= 0"])
+      s.add_development_dependency(%q<simplecov>, [">= 0"])
       s.add_development_dependency(%q<rake>, [">= 0"])
     else
-      s.add_dependency(%q<ruby2ruby>, [">= 0"])
-      s.add_dependency(%q<ruby_parser>, [">= 0"])
+      s.add_dependency(%q<ruby2ruby>, [">= 2.0.0.b1"])
+      s.add_dependency(%q<ruby_parser>, [">= 3.0.0.a9"])
       s.add_dependency(%q<shoulda>, [">= 0"])
       s.add_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.8.3"])
+      s.add_dependency(%q<simplecov>, [">= 0"])
       s.add_dependency(%q<rcov>, [">= 0"])
       s.add_dependency(%q<rake>, [">= 0"])
     end
   else
-    s.add_dependency(%q<ruby2ruby>, [">= 0"])
-    s.add_dependency(%q<ruby_parser>, [">= 0"])
+    s.add_dependency(%q<ruby2ruby>, [">= 2.0.0.b1"])
+    s.add_dependency(%q<ruby_parser>, [">= 3.0.0.a9"])
     s.add_dependency(%q<shoulda>, [">= 0"])
     s.add_dependency(%q<rdoc>, ["~> 3.12"])
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.8.3"])
+    s.add_dependency(%q<simplecov>, [">= 0"])
     s.add_dependency(%q<rcov>, [">= 0"])
     s.add_dependency(%q<rake>, [">= 0"])
   end
