@@ -21,7 +21,7 @@ class TestJail < Test::Unit::TestCase
   def test_jail_instances_should_have_limited_methods
     expected = ["class", "inspect", "method_missing", "methods", "respond_to?", "to_jail", "to_s", "instance_variable_get"]
     objects.each do |object|
-      assert_equal expected.sort, reject_pretty_methods(object.to_jail.methods.sort)
+      assert_equal expected.sort, reject_pretty_methods(object.to_jail.methods.map(&:to_s).sort)
     end
   end
 
@@ -32,7 +32,7 @@ class TestJail < Test::Unit::TestCase
                 "ancestors", "==" # ancestors and == needed in Rails::Generator::Spec#lookup_class
                ]
     objects.each do |object|
-      assert_equal expected.sort, reject_pretty_methods(object.to_jail.class.methods.sort)
+      assert_equal expected.sort, reject_pretty_methods(object.to_jail.class.methods.map(&:to_s).sort)
     end
   end
 

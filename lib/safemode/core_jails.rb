@@ -22,7 +22,7 @@ module Safemode
     end
     
     def core_jail_methods(klass)
-      @@methods_whitelist[klass.name] + (@@default_methods & klass.instance_methods)
+      @@methods_whitelist[klass.name] + (@@default_methods & klass.instance_methods.map(&:to_s))
     end
   end
   
@@ -67,7 +67,7 @@ module Safemode
            
     'String'     => %w(blank? capitalize capitalize! casecmp center chomp chomp!
                     chop chop! concat count crypt delete delete! downcase
-                    downcase! dump each each_byte each_line empty? end_with? gsub
+                    downcase! dump each_byte each_line empty? end_with? force_encoding gsub
                     gsub! hash hex include? index insert intern iseuc issjis
                     isutf8 kconv length ljust lstrip lstrip! match next next! oct
                     reverse reverse! rindex rjust rstrip rstrip! scan size slice
