@@ -72,6 +72,7 @@ See lib/ruby\_parser\_string\_io\_patch.diff
 * Matthias Viehweger
 * Ohad Levy
 * Kingsley Hendrickse
+* Dmitri Dolguikh
 
 This code and all of the Safemode library's code was initially written by
 Sven Fuchs to allow Haml to have a safe mode. It was then modified and

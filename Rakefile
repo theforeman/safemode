@@ -34,6 +34,7 @@ Jeweler::Tasks.new do |gem|
     "Matthias Viehweger",
     "Kingsley Hendrickse",
     "Ohad Levy",
+    "Dmitri Dolguikh",
   ]
   # dependencies defined in Gemfile
 end
