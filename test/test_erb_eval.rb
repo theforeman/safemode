@@ -1,6 +1,6 @@
 require File.join(File.dirname(__FILE__), 'test_helper')
 
-class TestSafemodeEval < Test::Unit::TestCase
+class TestERBEval < Test::Unit::TestCase
   include TestHelper
   
   def setup
