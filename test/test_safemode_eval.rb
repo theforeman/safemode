@@ -10,7 +10,9 @@ class TestSafemodeEval < Test::Unit::TestCase
   end
 
   def test_some_stuff_that_should_work
-    ['"test".upcase', '10.succ', '10.times{}', '[1,2,3].each{|a| a + 1}', 'true ? 1 : 0', 'a = 1'].each do |code|
+    ['"test".upcase', '10.succ', '10.times{}', '[1,2,3].each{|a| a + 1}',
+     'true ? 1 : 0', 'a = 1', 'if "a" != "b"; "true"; end',
+     'if "a" == "b"; "true"; end'].each do |code|
       assert_nothing_raised{ @box.eval code }
     end
   end
