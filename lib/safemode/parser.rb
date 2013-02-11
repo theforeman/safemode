@@ -36,6 +36,7 @@ module Safemode
       receiver = jail process_call_receiver(exp)
       name = exp.shift
       args = process_call_args(exp)
+
       process_call_code(receiver, name, args)
     end
     
@@ -149,7 +150,7 @@ module Safemode
 
     def process_call_code(receiver, name, args)
       case name
-      when :<=>, :==, :<, :>, :<=, :>=, :-, :+, :*, :/, :%, :<<, :>>, :** then
+      when :<=>, :==, "!=".to_sym, :<, :>, :<=, :>=, :-, :+, :*, :/, :%, :<<, :>>, :** then
         "(#{receiver} #{name} #{args})"
       when :[] then
         "#{receiver}[#{args}]"
@@ -195,7 +196,6 @@ module Safemode
         r = "if #{c} then\n#{indent(t)}\n"
         r << "else\n#{indent(f)}\n" if f
         r << "end"
-
         r
       else
         # unless expand then

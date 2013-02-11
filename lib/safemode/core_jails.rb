@@ -27,7 +27,7 @@ module Safemode
   end
   
   # these methods are allowed in all classes if they are present
-  @@default_methods = %w( % & * ** + +@ - -@ / < << <= <=> == === > >= >> ^ | ~
+  @@default_methods = %w( % & * ** + +@ - -@ / < << <= <=> != == === > >= >> ^ | ~
                           eql? equal? new methods is_a? kind_of? nil? 
                           [] []= to_a to_jail to_s inspect to_param )
 
