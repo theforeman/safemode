@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "safemode"
-  s.version = "1.1.0"
+  s.version = "1.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Sven Fuchs", "Peter Cooper", "Matthias Viehweger", "Kingsley Hendrickse", "Ohad Levy", "Dmitri Dolguikh"]
-  s.date = "2012-12-10"
+  s.date = "2013-02-11"
   s.description = "A library for safe evaluation of Ruby code based on RubyParser and Ruby2Ruby. Provides Rails ActionView template handlers for ERB and Haml."
   s.email = "ohadlevy@gmail.com"
   s.extra_rdoc_files = [
