@@ -19,7 +19,7 @@ class TestJail < Test::Unit::TestCase
   end
 
   def test_jail_instances_should_have_limited_methods
-    expected = ["class", "inspect", "method_missing", "methods", "respond_to?", "to_jail", "to_s", "instance_variable_get"]
+    expected = ["class", "inspect", "method_missing", "methods", "respond_to?", "respond_to_missing?", "to_jail", "to_s", "instance_variable_get"]
     objects.each do |object|
       assert_equal expected.sort, reject_pretty_methods(object.to_jail.methods.map(&:to_s).sort)
     end
@@ -38,6 +38,11 @@ class TestJail < Test::Unit::TestCase
 
   def test_allowed_methods_should_be_propagated_to_subclasses
     assert_equal Article::Jail.allowed_methods, Article::ExtendedJail.allowed_methods
+  end
+
+  def test_respond_to_works_correctly
+    assert @article.respond_to?(:title)
+    assert !@article.respond_to?(:bogus)
   end
 
   private

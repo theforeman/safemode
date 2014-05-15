@@ -24,5 +24,14 @@ module Safemode
       # statement, passing them to a Rails helper etc.
       @source.send(method, *args, &block)
     end
+
+    # needed for compatibility with 1.8.7; remove this method once 1.8.7 support has been dropped
+    def respond_to?(method, *)
+      respond_to_missing?(method)
+    end
+
+    def respond_to_missing?(method_name, include_private = false)
+      self.class.allowed?(method_name)
+    end
   end
 end
