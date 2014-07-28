@@ -24,5 +24,9 @@ module Safemode
       # statement, passing them to a Rails helper etc.
       @source.send(method, *args, &block)
     end
+
+    def respond_to?(method, include_private = false)
+      self.class.allowed?(method)
+    end
   end
 end

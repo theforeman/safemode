@@ -14,7 +14,38 @@ class TestSafemodeEval < Test::Unit::TestCase
       assert_nothing_raised{ @box.eval code }
     end
   end
-  
+
+  def test_unary_operators_on_instances_of_boolean_vars
+     assert @box.eval('not false')
+     assert @box.eval('!false')
+     assert !@box.eval('not true')
+     assert !@box.eval('!true')
+  end
+
+  def test_false_class_ops
+      assert !@box.eval('false ^ false')
+      assert !@box.eval('false & false')
+      assert !@box.eval('false && false')
+      assert !@box.eval('false and false')
+      assert !@box.eval('false | false')
+      assert !@box.eval('false || false')
+      assert !@box.eval('false or false')
+      assert @box.eval('false == false')
+      assert @box.eval('false != true')
+    end
+
+  def test_true_class_ops
+      assert !@box.eval('true ^ true')
+      assert @box.eval('true & true')
+      assert @box.eval('true && true')
+      assert @box.eval('true and true')
+      assert @box.eval('true | true')
+      assert @box.eval('true || true')
+      assert @box.eval('true or true')
+      assert @box.eval('true == true')
+      assert @box.eval('true != false')
+    end
+
   def test_should_turn_assigns_to_jails
     assert_raise_no_method "@article.system", @assigns
   end

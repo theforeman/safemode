@@ -40,6 +40,11 @@ class TestJail < Test::Unit::TestCase
     assert_equal Article::Jail.allowed_methods, Article::ExtendedJail.allowed_methods
   end
 
+  def test_respond_to_works_correctly
+    assert @article.respond_to?(:title)
+    assert !@article.respond_to?(:bogus)
+  end
+
   private
 
   def objects
