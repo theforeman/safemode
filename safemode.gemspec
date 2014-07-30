@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "safemode"
-  s.version = "1.2.0"
+  s.version = "1.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Sven Fuchs", "Peter Cooper", "Matthias Viehweger", "Kingsley Hendrickse", "Ohad Levy", "Dmitri Dolguikh"]
