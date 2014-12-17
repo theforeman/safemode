@@ -1,8 +1,8 @@
 source "http://rubygems.org"
 
-gem 'sexp_processor', ">= 4.1.2"
-gem 'ruby2ruby', ">= 2.0.1"
-gem "ruby_parser", ">= 3.0.1"
+gem 'sexp_processor', ">= 4.3.0"
+gem 'ruby2ruby', ">= 2.0.6"
+gem "ruby_parser", ">= 3.2.0"
 
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
@@ -12,7 +12,7 @@ group :development do
   gem "bundler", "~> 1.0"
   gem "jeweler", "~> 1.8.3"
   gem "rcov", :platforms => :ruby_18
-  gem "simplecov", :platforms => :ruby_19 
-  gem "test-unit", :platforms => :ruby_19
+  gem "simplecov", :platforms => [:ruby_19, :ruby_20, :ruby_21]
+  gem "test-unit", :platforms => [:ruby_19, :ruby_20, :ruby_21]
   gem "rake"
 end

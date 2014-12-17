@@ -82,6 +82,8 @@ module Safemode
                    :self,
                    # :args is now used for block parameters
                    :args,
+                   # :colon2 is used for module constants
+                   :colon2,
                    # unnecessarily advanced?
                    :argscat, :argspush, :splat, :block_pass,
                    :op_asgn1, :op_asgn2, :op_asgn_and, :op_asgn_or,
@@ -91,7 +93,7 @@ module Safemode
     disallowed = [ # :self,  # self doesn't seem to be needed for vcalls?
                    # see below for :const handling
                    :defn, :defs, :alias, :valias, :undef, :class, :attrset,
-                   :module, :sclass, :colon2, :colon3,
+                   :module, :sclass, :colon3,
                    :fbody, :scope, :block_arg, :postexe,
                    :redo, :retry, :begin, :rescue, :resbody, :ensure,
                    :defined, :super, :zsuper, :return,
@@ -113,10 +115,10 @@ module Safemode
     end
 
     # handling of Encoding constants in ruby 1.9.
-    # Note: ruby_parser evaluates __ENCODING__ to :const Encoding::UTF_8
+    # Note: ruby_parser evaluates __ENCODING__ to s(:colon2, s(:const, :Encoding), :UTF_8)
     def process_const(arg)
-      raise_security_error("constant", super(arg)) unless (RUBY_VERSION >= "1.9" and arg.sexp_type.class == Encoding)
-      "Encoding::#{super(arg).gsub('-', '_')}"
+      raise_security_error("constant", super(arg)) unless (RUBY_VERSION >= "1.9" and arg.sexp_type == :Encoding)
+      "#{super(arg).gsub('-', '_')}"
     end
     
     def raise_security_error(type, info)
