@@ -12,7 +12,7 @@ group :development do
   gem "bundler", "~> 1.0"
   gem "jeweler", "~> 1.8.3"
   gem "rcov", :platforms => :ruby_18
-  gem "simplecov", :platforms => [:ruby_19, :ruby_20, :ruby_21]
-  gem "test-unit", :platforms => [:ruby_19, :ruby_20, :ruby_21]
+  gem "simplecov", :platforms => [:ruby_19, :ruby_20, :ruby_21, :ruby_22]
+  gem "test-unit", :platforms => [:ruby_19, :ruby_20, :ruby_21, :ruby_22]
   gem "rake"
 end
