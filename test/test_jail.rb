@@ -19,7 +19,7 @@ class TestJail < Test::Unit::TestCase
   end
 
   def test_jail_instances_should_have_limited_methods
-    expected = ["class", "inspect", "method_missing", "methods", "respond_to?", "respond_to_missing?", "to_jail", "to_s", "instance_variable_get"]
+    expected = ["class", "method_missing", "methods", "respond_to?", "respond_to_missing?", "to_jail", "to_s", "instance_variable_get"]
     expected.delete('respond_to_missing?') if RUBY_VERSION > '1.9.3' # respond_to_missing? is private in rubies above 1.9.3
     objects.each do |object|
       assert_equal expected.sort, reject_pretty_methods(object.to_jail.methods.map(&:to_s).sort)
@@ -27,7 +27,7 @@ class TestJail < Test::Unit::TestCase
   end
 
   def test_jail_classes_should_have_limited_methods
-    expected = ["new", "methods", "name", "inherited", "method_added", "inspect",
+    expected = ["new", "methods", "name", "inherited", "method_added",
                 "allow", "allowed?", "allowed_methods", "init_allowed_methods",
                 "<", # < needed in Rails Object#subclasses_of
                 "ancestors", "==" # ancestors and == needed in Rails::Generator::Spec#lookup_class
