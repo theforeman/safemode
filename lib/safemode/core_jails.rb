@@ -62,6 +62,11 @@ module Safemode
                     present? rec_merge! rehash reject reject! select shift
                     size sort store update value? values values_at),
 
+    'Integer'    => %w(abs blank? ceil chr coerce div divmod downto floor id2name
+                    integer? modulo modulo next nonzero? present? quo remainder
+                    round singleton_method_added size step succ times to_f to_i
+                    to_int to_s to_sym truncate upto zero?),
+
     'Range'      => %w(any? begin blank? each end exclude_end? first hash
                     include? include_without_range? last member? present?
                     step),
