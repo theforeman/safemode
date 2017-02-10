@@ -14,9 +14,15 @@ module Safemode
     end
 
     def core_classes
-      klasses = [ Array, Bignum, Fixnum, Float, Hash, Range, String, Symbol, Time, NilClass, FalseClass, TrueClass ]
+      klasses = [ Array, Float, Hash, Range, String, Symbol, Time, NilClass, FalseClass, TrueClass ]
       klasses << Date if defined? Date
       klasses << DateTime if defined? DateTime
+      if RUBY_VERSION >= '2.4.0'
+        klasses << Integer
+      else
+        klasses << Bignum
+        klasses << Fixnum
+      end
       klasses
     end
 
