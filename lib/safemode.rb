@@ -24,7 +24,7 @@ require 'safemode/scope'
 module Safemode
   class << self
     def jail(obj)
-      find_jail_class(obj.class).new obj
+      find_jail_class(obj.is_a?(Class) ? obj : obj.class).new obj
     end
     
     def find_jail_class(klass)

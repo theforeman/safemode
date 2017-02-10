@@ -2,7 +2,10 @@ module Safemode
   class << self
     def define_core_jail_classes
       core_classes.each do |klass|
-        define_jail_class(klass).allow *core_jail_methods(klass).uniq
+        jail = define_jail_class(klass)
+        jail.allow_instance_method *core_jail_methods(klass).uniq
+        jail.allow_class_method *core_jail_class_methods(klass).uniq
+        jail
       end
     end
 
@@ -14,14 +17,18 @@ module Safemode
     end
 
     def core_classes
-      klasses = [ Array, Bignum, Class, Fixnum, Float, Hash, Range, String, Symbol, Time, NilClass, FalseClass, TrueClass ]
+      klasses = [ Array, Bignum, Fixnum, Float, Hash, Range, String, Symbol, Time, NilClass, FalseClass, TrueClass ]
       klasses << Date if defined? Date
       klasses << DateTime if defined? DateTime
       klasses
     end
 
     def core_jail_methods(klass)
-      @@methods_whitelist[klass.name] + (@@default_methods & klass.instance_methods.map(&:to_s))
+      @@methods_whitelist.fetch(klass.name, []) + (@@default_methods & klass.instance_methods.map(&:to_s))
+    end
+
+    def core_jail_class_methods(klass)
+      @@class_methods_whitelist.fetch(klass.name, []) + (@@default_class_methods & klass.methods.map(&:to_s))
     end
   end
 
@@ -45,8 +52,6 @@ module Safemode
                     integer? modulo next nonzero? present? quo remainder round
                     singleton_method_added size step succ times to_f to_i
                     to_int to_s truncate upto zero?),
-
-    'Class'      => %w(new),
 
     'Fixnum'     => %w(abs blank? ceil chr coerce div divmod downto floor id2name
                     integer? modulo modulo next nonzero? present? quo remainder
@@ -110,5 +115,13 @@ module Safemode
     'FalseClass' => %w(blank? duplicable? present?),
 
     'TrueClass'  => %w(blank? duplicable? present?)
+  }
+
+  # these class methods are allowed on all classes if they are present
+  @@default_class_methods = %w(name to_jail to_s)
+
+  # whitelisted class methods for core classes
+  @@class_methods_whitelist = {
+    'String' => %w(new)
   }
 end

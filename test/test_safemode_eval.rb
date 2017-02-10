@@ -12,7 +12,7 @@ class TestSafemodeEval < Test::Unit::TestCase
   def test_some_stuff_that_should_work
     ['"test".upcase', '10.succ', '10.times{}', '[1,2,3].each{|a| a + 1}',
      'true ? 1 : 0', 'a = 1', 'if "a" != "b"; "true"; end',
-     'if "a" == "b"; "true"; end'].each do |code|
+     'if "a" == "b"; "true"; end', 'String.new'].each do |code|
       assert_nothing_raised{ @box.eval code }
     end
   end
@@ -88,7 +88,7 @@ class TestSafemodeEval < Test::Unit::TestCase
     call.gsub!('"', '\\\\"')
     class_eval %Q(
       def test_calling_#{call.gsub(/[\W]/, '_')}_should_raise_no_method
-        assert_raise_no_method "#{call}"
+        assert_raise_no_method "#{call}", @assigns, @locals
       end
     )
   end
@@ -97,7 +97,7 @@ class TestSafemodeEval < Test::Unit::TestCase
     call.gsub!('"', '\\\\"')
     class_eval %Q(
       def test_calling_#{call.gsub(/[\W]/, '_')}_should_raise_security
-        assert_raise_security "#{call}"
+        assert_raise_security "#{call}", @assigns, @locals
       end
     )
   end  

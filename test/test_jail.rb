@@ -4,10 +4,15 @@ class TestJail < Test::Unit::TestCase
   def setup
     @article = Article.new.to_jail
     @comment = @article.comments.first
+    @comment_class = Comment.to_jail
   end
 
-  def test_explicitly_allowed_methods_should_be_accessible
+  def test_explicitly_allowed_instance_methods_should_be_accessible
     assert_nothing_raised { @article.title }
+  end
+
+  def test_explicitly_allowed_class_methods_should_be_accessible
+    assert_nothing_raised { @comment_class.all(1) }
   end
 
   def test_jail_instance_methods_should_be_accessible
@@ -29,6 +34,8 @@ class TestJail < Test::Unit::TestCase
   def test_jail_classes_should_have_limited_methods
     expected = ["new", "methods", "name", "inherited", "method_added",
                 "allow", "allowed?", "allowed_methods", "init_allowed_methods",
+                "allow_instance_method", "allow_class_method", "allowed_instance_method?",
+                "allowed_class_method?", "allowed_instance_methods", "allowed_class_methods",
                 "<", # < needed in Rails Object#subclasses_of
                 "ancestors", "==" # ancestors and == needed in Rails::Generator::Spec#lookup_class
                ]
@@ -49,7 +56,7 @@ class TestJail < Test::Unit::TestCase
   private
 
   def objects
-    [[], {}, 1..2, "a", :a, Time.now, 1, 1.0, nil, false, true]
+    [[], {}, 1..2, "a", :a, Time.now, 1, 1.0, nil, false, true, Comment]
   end
 
   def reject_pretty_methods(methods)

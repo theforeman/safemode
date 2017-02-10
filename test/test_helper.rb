@@ -17,7 +17,10 @@ module TestHelper
         'true.eval("a = 1")',
         'false.eval("a = 1")',
         '@article.is_article?.eval("a = 1")',
-        '@article.comments.map{|c| c.eval("a = 1")}' ]
+        '@article.comments.map{|c| c.eval("a = 1")}',
+        '@article.comment_class.destroy_all',
+        '@article.comment_class.new',
+        'String.instance_variable_set :@a, :a' ]
     end
     
     def security_error_raising_calls
@@ -62,7 +65,8 @@ module TestHelper
         "sleep", "sleep(0)",                           
         "test(1, a, b)",                           
         "Signal.trap(0, proc { puts 'Terminating: #{$$}' })",
-        "warn 'warning'" ]
+        "warn 'warning'",
+        'Array.new' ]
     end
   end
 
@@ -102,6 +106,10 @@ class Article
     [Comment.new(self), Comment.new(self)]
   end
 
+  def comment_class
+    Comment
+  end
+
   def method_missing(method, *args, &block)
     super(method, *args, &block)
   end
@@ -121,10 +129,22 @@ class Comment
   def to_jail
     Comment::Jail.new self
   end
+
+  def self.to_jail
+    Comment::Jail.new self
+  end
+
+  def self.all(article)
+    [Comment.new(article), Comment.new(article)]
+  end
+
+  def self.destroy_all
+    raise 'Destroyed all comments'
+  end
 end
 
 class Article::Jail < Safemode::Jail
-  allow :title, :comments, :is_article?
+  allow :title, :comments, :is_article?, :comment_class
   
   def author_name
     "this article's author name"
@@ -136,4 +156,5 @@ end
 
 class Comment::Jail < Safemode::Jail
   allow :article, :text
+  allow_class_method :all
 end

@@ -13,8 +13,14 @@ module Safemode
     end
   
     def method_missing(method, *args, &block)
-      unless self.class.allowed?(method)
-        raise Safemode::NoMethodError.new(method, self.class.name, @source.class.name) 
+      if @source.is_a?(Class)
+        unless self.class.allowed_class_method?(method)
+          raise Safemode::NoMethodError.new(".#{method}", self.class.name, @source.name)
+        end
+      else
+        unless self.class.allowed_instance_method?(method)
+          raise Safemode::NoMethodError.new("##{method}", self.class.name, @source.class.name)
+        end
       end
       
       # As every call to an object in the eval'ed string will be jailed by the
@@ -31,7 +37,7 @@ module Safemode
     end
 
     def respond_to_missing?(method_name, include_private = false)
-      self.class.allowed?(method_name)
+      self.class.allowed_instance_method?(method_name)
     end
   end
 end
