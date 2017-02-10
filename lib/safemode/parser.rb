@@ -114,11 +114,17 @@ module Safemode
       end
     end
 
-    # handling of Encoding constants in ruby 1.9.
-    # Note: ruby_parser evaluates __ENCODING__ to s(:colon2, s(:const, :Encoding), :UTF_8)
     def process_const(arg)
-      raise_security_error("constant", super(arg)) unless (RUBY_VERSION >= "1.9" and arg.sexp_type == :Encoding)
-      "#{super(arg).gsub('-', '_')}"
+      if RUBY_VERSION >= "1.9" && arg.sexp_type == :Encoding
+        # handling of Encoding constants in ruby 1.9.
+        # Note: ruby_parser evaluates __ENCODING__ to s(:colon2, s(:const, :Encoding), :UTF_8)
+        "#{super(arg).gsub('-', '_')}"
+      elsif arg.sexp_type == :String
+        # Allow String.new as used in ERB in Ruby 2.4+ to create a string buffer
+        super(arg).to_s
+      else
+        raise_security_error("constant", super(arg))
+      end
     end
     
     def raise_security_error(type, info)
