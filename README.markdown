@@ -45,6 +45,10 @@ can do that by defining a Safemode::Jail class for your classes, like so:
 This will allow your template users to access the name method on your User 
 objects.
 
+Class methods can be whitelisted by calling `allow_class_method :foo` from
+within the Jail. Note that access to raw constants is not permitted, so the
+class is only accessible when returned by a method or passed into a template.
+
 For more details about the concepts behind Safemode please refer to the 
 following blog posts until a more comprehensive writeup is available:
 

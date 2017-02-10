@@ -10,24 +10,41 @@ module Safemode
       def method_added(name) end # ActiveSupport needs this
 
       def inherited(subclass)
-        subclass.init_allowed_methods(@allowed_methods)
+        subclass.init_allowed_methods(@allowed_instance_methods, @allowed_class_methods)
       end
 
-      def init_allowed_methods(allowed_methods)
-        @allowed_methods = allowed_methods
+      def init_allowed_methods(allowed_instance_methods, allowed_class_methods)
+        @allowed_instance_methods = allowed_instance_methods
+        @allowed_class_methods = allowed_class_methods
       end
 
-      def allowed_methods
-        @allowed_methods ||= []
+      def allowed_instance_methods
+        @allowed_instance_methods ||= []
+      end
+      alias_method :allowed_methods, :allowed_instance_methods
+
+      def allowed_class_methods
+        @allowed_class_methods ||= []
       end
 
-      def allow(*names)
-        @allowed_methods = allowed_methods + names.map{|name| name.to_s}
-        @allowed_methods.uniq!
+      def allow_instance_method(*names)
+        @allowed_instance_methods = allowed_instance_methods + names.map{|name| name.to_s}
+        @allowed_instance_methods.uniq!
+      end
+      alias_method :allow, :allow_instance_method
+
+      def allow_class_method(*names)
+        @allowed_class_methods = allowed_class_methods + names.map{|name| name.to_s}
+        @allowed_class_methods.uniq!
       end
 
-      def allowed?(name)
-        allowed_methods.include? name.to_s
+      def allowed_instance_method?(name)
+        allowed_instance_methods.include? name.to_s
+      end
+      alias_method :allowed?, :allowed_instance_method?
+
+      def allowed_class_method?(name)
+        allowed_class_methods.include? name.to_s
       end
     end
   end
