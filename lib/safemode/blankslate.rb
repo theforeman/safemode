@@ -1,7 +1,13 @@
 module Safemode
   class Blankslate
     @@allow_instance_methods = ['class', 'methods', 'respond_to?', 'respond_to_missing?', 'to_s', 'instance_variable_get']
-    @@allow_class_methods    = ['methods', 'new', 'name', '<', 'ancestors', '=='] # < needed in Rails Object#subclasses_of
+    @@allow_class_methods    = ['methods', 'new', 'name', '<', 'ancestors', '==']  # < needed in Rails Object#subclasses_of
+    if defined?(JRUBY_VERSION)
+      # JRuby seems to silently fail to remove method_missing
+      # (also see https://github.com/jruby/jruby/blob/9.1.7.0/core/src/main/java/org/jruby/RubyModule.java#L1109)
+      @@allow_class_methods << 'method_missing'
+      (@@allow_class_methods << ['singleton_method_undefined', 'singleton_method_added']).flatten! # needed for JRuby support
+    end
 
     silently { undef_methods(*instance_methods.map(&:to_s) - @@allow_instance_methods) }
     class << self

@@ -11,7 +11,7 @@ group :development do
   gem "bundler", "~> 1.0"
   gem "jeweler", RUBY_VERSION.start_with?("1.8") ? "~> 1.0" : ">= 0"
   gem "rcov", :platforms => :ruby_18
-  gem "simplecov", :platforms => [:ruby_19, :ruby_20, :ruby_21, :ruby_22, :ruby_23, :ruby_24]
-  gem "test-unit", :platforms => [:ruby_19, :ruby_20, :ruby_21, :ruby_22, :ruby_23, :ruby_24]
+  gem "simplecov", :platforms => [:ruby_19, :ruby_20, :ruby_21, :ruby_22, :ruby_23, :ruby_24, :jruby]
+  gem "test-unit", :platforms => [:ruby_19, :ruby_20, :ruby_21, :ruby_22, :ruby_23, :ruby_24, :jruby]
   gem "rake", RUBY_VERSION.start_with?("1.8") ? "< 11" : ">= 0"
 end
