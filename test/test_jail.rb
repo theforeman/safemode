@@ -37,8 +37,12 @@ class TestJail < Test::Unit::TestCase
                 "allow_instance_method", "allow_class_method", "allowed_instance_method?",
                 "allowed_class_method?", "allowed_instance_methods", "allowed_class_methods",
                 "<", # < needed in Rails Object#subclasses_of
-                "ancestors", "==" # ancestors and == needed in Rails::Generator::Spec#lookup_class
-               ]
+                "ancestors", "=="] # ancestors and == needed in Rails::Generator::Spec#lookup_class
+
+    if defined?(JRUBY_VERSION)
+      (expected << ['method_missing', 'singleton_method_undefined', 'singleton_method_added']).flatten!  # needed for running under jruby
+    end
+
     objects.each do |object|
       assert_equal expected.sort, reject_pretty_methods(object.to_jail.class.methods.map(&:to_s).sort)
     end
