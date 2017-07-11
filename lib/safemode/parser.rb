@@ -85,7 +85,7 @@ module Safemode
                    # :colon2 is used for module constants
                    :colon2,
                    # unnecessarily advanced?
-                   :argscat, :argspush, :splat, :block_pass,
+                   :argscat, :argspush, :splat,
                    :op_asgn1, :op_asgn2, :op_asgn_and, :op_asgn_or,
                    # needed for haml
                    :block ]
@@ -101,7 +101,11 @@ module Safemode
                    :attrasgn, :cdecl, :cvasgn, :cvdecl, :cvar, :gvar, :gasgn,
                    :xstr, :dxstr,
                    # not sure how secure ruby regexp is, so leave it out for now
-                   :dregx, :dregx_once, :match2, :match3, :nth_ref, :back_ref ]
+                   :dregx, :dregx_once, :match2, :match3, :nth_ref, :back_ref,
+                   # block_pass represents &:method, which would bypass the whitelist e.g. by array.each(&:destroy)
+                   # at this point we don't know the receiver so we rather disable it completely,
+                   # use array.each { |item| item.destroy } instead
+                   :block_pass ]
 
     # SexpProcessor bails when we overwrite these ... but they are listed as 
     # "internal nodes that you can't get to" in sexp_processor.rb

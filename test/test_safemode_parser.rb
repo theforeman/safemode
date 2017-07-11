@@ -31,6 +31,12 @@ class TestSafemodeParser < Test::Unit::TestCase
     end
   end
 
+  def test_block_pass_is_disabled
+    assert_raise Safemode::SecurityError do
+      jail('[].each(&:delete)')
+    end
+  end
+
 private
   
   def assert_jailed(expected, code)
