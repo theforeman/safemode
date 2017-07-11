@@ -11,13 +11,14 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["Sven Fuchs".freeze, "Peter Cooper".freeze, "Matthias Viehweger".freeze, "Kingsley Hendrickse".freeze, "Ohad Levy".freeze, "Dmitri Dolguikh".freeze]
-  s.date = "2017-02-13"
+  s.date = "2017-07-11"
   s.description = "A library for safe evaluation of Ruby code based on RubyParser and Ruby2Ruby. Provides Rails ActionView template handlers for ERB and Haml.".freeze
   s.email = "ohadlevy@gmail.com".freeze
   s.extra_rdoc_files = [
     "README.markdown"
   ]
   s.files = [
+    ".travis.yml",
     "Gemfile",
     "LICENCSE",
     "README.markdown",
@@ -48,7 +49,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = "http://github.com/svenfuchs/safemode".freeze
   s.licenses = ["MIT".freeze]
-  s.rubygems_version = "2.6.10".freeze
+  s.rubygems_version = "2.6.8".freeze
   s.summary = "A library for safe evaluation of Ruby code based on ParseTree/RubyParser and Ruby2Ruby".freeze
 
   if s.respond_to? :specification_version then
@@ -58,7 +59,6 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<sexp_processor>.freeze, [">= 4.3.0"])
       s.add_runtime_dependency(%q<ruby2ruby>.freeze, [">= 2.0.6"])
       s.add_runtime_dependency(%q<ruby_parser>.freeze, [">= 3.2.0"])
-      s.add_development_dependency(%q<shoulda>.freeze, [">= 0"])
       s.add_development_dependency(%q<rdoc>.freeze, ["~> 3.12"])
       s.add_development_dependency(%q<bundler>.freeze, ["~> 1.0"])
       s.add_development_dependency(%q<jeweler>.freeze, [">= 0"])
@@ -70,7 +70,6 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<sexp_processor>.freeze, [">= 4.3.0"])
       s.add_dependency(%q<ruby2ruby>.freeze, [">= 2.0.6"])
       s.add_dependency(%q<ruby_parser>.freeze, [">= 3.2.0"])
-      s.add_dependency(%q<shoulda>.freeze, [">= 0"])
       s.add_dependency(%q<rdoc>.freeze, ["~> 3.12"])
       s.add_dependency(%q<bundler>.freeze, ["~> 1.0"])
       s.add_dependency(%q<jeweler>.freeze, [">= 0"])
@@ -83,7 +82,6 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<sexp_processor>.freeze, [">= 4.3.0"])
     s.add_dependency(%q<ruby2ruby>.freeze, [">= 2.0.6"])
     s.add_dependency(%q<ruby_parser>.freeze, [">= 3.2.0"])
-    s.add_dependency(%q<shoulda>.freeze, [">= 0"])
     s.add_dependency(%q<rdoc>.freeze, ["~> 3.12"])
     s.add_dependency(%q<bundler>.freeze, ["~> 1.0"])
     s.add_dependency(%q<jeweler>.freeze, [">= 0"])
