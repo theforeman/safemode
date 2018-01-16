@@ -2,14 +2,14 @@ module Safemode
   class Parser < Ruby2Ruby
     # @@parser = defined?(RubyParser) ? 'RubyParser' : 'ParseTree'
     @@parser = 'RubyParser'
-    
+
     class << self
       def jail(code, allowed_fcalls = [])
         @@allowed_fcalls = allowed_fcalls
         tree = parse code
         self.new.process(tree)
       end
-      
+
       def parse(code)
         case @@parser
         # when 'ParseTree'
@@ -20,12 +20,12 @@ module Safemode
           raise "unknown parser #{@@parser}"
         end
       end
-      
+
       def parser=(parser)
         @@parser = parser
       end
     end
-    
+
     def jail(str, parentheses = false)
       str = parentheses ? "(#{str})." : "#{str}." if str
       "#{str}to_jail"
@@ -33,13 +33,14 @@ module Safemode
 
     # split up #process_call. see below ...
     def process_call(exp)
+      exp.shift # remove ":call" symbol
       receiver = jail process_call_receiver(exp)
       name = exp.shift
       args = process_call_args(exp)
 
       process_call_code(receiver, name, args)
     end
-    
+
     def process_fcall(exp)
       # using haml we probably never arrive here because :lasgn'ed :fcalls
       # somehow seem to change to :calls somewhere during processing
@@ -107,11 +108,11 @@ module Safemode
                    # use array.each { |item| item.destroy } instead
                    :block_pass ]
 
-    # SexpProcessor bails when we overwrite these ... but they are listed as 
+    # SexpProcessor bails when we overwrite these ... but they are listed as
     # "internal nodes that you can't get to" in sexp_processor.rb
     # :ifunc, :method, :last, :opt_n, :cfunc, :newline, :alloca, :memo, :cref
-                   
-    disallowed.each do |name| 
+
+    disallowed.each do |name|
       define_method "process_#{name}" do |arg|
         code = super(arg)
         raise_security_error(name, code)
@@ -119,30 +120,31 @@ module Safemode
     end
 
     def process_const(arg)
-      if RUBY_VERSION >= "1.9" && arg.sexp_type == :Encoding
+      sexp_type = arg.sexp_body.sexp_type # constants are encoded as: "s(:const, :Encoding)"
+      if RUBY_VERSION >= "1.9" && sexp_type == :Encoding
         # handling of Encoding constants in ruby 1.9.
         # Note: ruby_parser evaluates __ENCODING__ to s(:colon2, s(:const, :Encoding), :UTF_8)
         "#{super(arg).gsub('-', '_')}"
-      elsif arg.sexp_type == :String
+      elsif sexp_type == :String
         # Allow String.new as used in ERB in Ruby 2.4+ to create a string buffer
         super(arg).to_s
       else
         raise_security_error("constant", super(arg))
       end
     end
-    
+
     def raise_security_error(type, info)
       raise Safemode::SecurityError.new(type, info)
     end
-    
+
     # split up Ruby2Ruby#process_call monster method so we can hook into it
     # in a more readable manner
 
     def process_call_receiver(exp)
       receiver_node_type = exp.first.nil? ? nil : exp.first.first
-      receiver = process exp.shift        
+      receiver = process exp.shift
       receiver = "(#{receiver})" if
-        Ruby2Ruby::ASSIGN_NODES.include? receiver_node_type            
+        Ruby2Ruby::ASSIGN_NODES.include? receiver_node_type
       receiver
     end
 
@@ -178,15 +180,16 @@ module Safemode
         end
       end
     end
-    
+
     # Ruby2Ruby process_if rewrites if and unless statements in a way that
     # makes the result unusable for evaluation in, e.g. ERB which appends a
-    # call to to_s when using <%= %> tags. We'd need to either enclose the 
+    # call to to_s when using <%= %> tags. We'd need to either enclose the
     # result from process_if into parentheses like (1 if true) and
     # (true ? (1) : (2)) or just use the plain if-then-else-end syntax (so
     # that ERB can safely append to_s to the resulting block).
 
     def process_if(exp)
+      exp.shift # remove ":if" symbol from exp
       expand = Ruby2Ruby::ASSIGN_NODES.include? exp.first.first
       c = process exp.shift
       t = process exp.shift
@@ -216,6 +219,6 @@ module Safemode
         # end
         "unless #{c} then\n#{indent(f)}\nend"
       end
-    end    
-  end                        
+    end
+  end
 end
