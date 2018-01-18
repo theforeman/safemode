@@ -1,8 +1,8 @@
 source "http://rubygems.org"
 
-gem 'sexp_processor', ">= 4.3.0"
+gem 'sexp_processor', ">= 4.10.0"
 gem 'ruby2ruby', ">= 2.4.0"
-gem "ruby_parser", ">= 3.2.0"
+gem "ruby_parser", ">= 3.10.1"
 
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
