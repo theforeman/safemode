@@ -3,6 +3,8 @@
 A library for safe evaluation of Ruby code based on RubyParser and
 Ruby2Ruby. Provides Rails ActionView template handlers for ERB and Haml.
 
+[![Build Status](https://travis-ci.org/svenfuchs/safemode.svg?branch=master)](https://travis-ci.org/svenfuchs/safemode)
+
 ### Word of warning
 
 This library is still highly experimental. Only use it at your own risk for
