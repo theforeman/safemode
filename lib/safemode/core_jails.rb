@@ -65,9 +65,12 @@ module Safemode
     ^
     |
     ~
+    acts_like?
+    blank?
     eql?
     equal?
     freeze
+    in?
     inspect
     is_a?
     kind_of?
@@ -75,9 +78,13 @@ module Safemode
     new
     nil?
     not
+    presence
+    present?
     to_a
     to_jail
     to_param
+    to_param
+    to_query
     to_s
   )
 
