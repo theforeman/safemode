@@ -70,6 +70,7 @@ module Safemode
     eql?
     equal?
     freeze
+    frozen?
     in?
     inspect
     is_a?
@@ -80,6 +81,8 @@ module Safemode
     not
     presence
     present?
+    respond_to?
+    then
     to_a
     to_jail
     to_param
