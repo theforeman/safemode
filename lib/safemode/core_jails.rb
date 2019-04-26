@@ -141,72 +141,6 @@ module Safemode
     values_at
     zip
   ),
-  'Bignum' => %w(
-    abs
-    blank?
-    ceil
-    coerce
-    div
-    divmod
-    downto
-    floor
-    hash
-    chr
-    integer?
-    modulo
-    next
-    nonzero?
-    present?
-    quo
-    remainder
-    round
-    singleton_method_added
-    size
-    step
-    succ
-    times
-    to_f
-    to_i
-    to_int
-    to_s
-    truncate
-    upto
-    zero?
-  ),
-  'Fixnum' => %w(
-    abs
-    blank?
-    ceil
-    coerce
-    div
-    divmod
-    downto
-    floor
-    chr
-    id2name
-    integer?
-    modulo
-    modulo
-    next
-    nonzero?
-    present?
-    quo
-    remainder
-    round
-    singleton_method_added
-    size
-    step
-    succ
-    times
-    to_f
-    to_i
-    to_int
-    to_s
-    to_sym
-    truncate
-    upto
-    zero?
-  ),
   'Float' => %w(
     abs
     blank?
@@ -540,6 +474,74 @@ module Safemode
     blank?
     duplicable?
     present?
+  ),
+  # Bignum was unified with Integer in Ruby 2.4
+  'Bignum' => %w(
+    abs
+    blank?
+    ceil
+    coerce
+    div
+    divmod
+    downto
+    floor
+    hash
+    chr
+    integer?
+    modulo
+    next
+    nonzero?
+    present?
+    quo
+    remainder
+    round
+    singleton_method_added
+    size
+    step
+    succ
+    times
+    to_f
+    to_i
+    to_int
+    to_s
+    truncate
+    upto
+    zero?
+  ),
+  # Fixnum was unified with Integer in Ruby 2.4
+  'Fixnum' => %w(
+    abs
+    blank?
+    ceil
+    coerce
+    div
+    divmod
+    downto
+    floor
+    chr
+    id2name
+    integer?
+    modulo
+    modulo
+    next
+    nonzero?
+    present?
+    quo
+    remainder
+    round
+    singleton_method_added
+    size
+    step
+    succ
+    times
+    to_f
+    to_i
+    to_int
+    to_s
+    to_sym
+    truncate
+    upto
+    zero?
   ),
   }
 
