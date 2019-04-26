@@ -39,9 +39,47 @@ module Safemode
   end
 
   # these methods are allowed in all classes if they are present
-  @@default_methods = %w( % & * ** + +@ - -@ / < << <= <=> ! != == === > >= >> ^ | ~
-                          eql? equal? new methods is_a? kind_of? nil?
-                          [] []= to_a to_jail to_s inspect to_param not freeze)
+  @@default_methods = %w(
+    !
+    !=
+    %
+    &
+    *
+    **
+    +
+    +@
+    -
+    -@
+    /
+    <
+    <<
+    <=
+    <=>
+    ==
+    ===
+    >
+    >=
+    >>
+    []
+    []=
+    ^
+    |
+    ~
+    eql?
+    equal?
+    freeze
+    inspect
+    is_a?
+    kind_of?
+    methods
+    new
+    nil?
+    not
+    to_a
+    to_jail
+    to_param
+    to_s
+  )
 
   # whitelisted methods for core classes ... kind of arbitrary selection
   @@methods_whitelist = {
