@@ -80,8 +80,8 @@ module Safemode
     map!
     nitems
     pop
-    push
     present?
+    push
     rassoc
     reject
     reject!
@@ -107,13 +107,13 @@ module Safemode
     abs
     blank?
     ceil
-    chr
     coerce
     div
     divmod
     downto
     floor
     hash
+    chr
     integer?
     modulo
     next
@@ -139,12 +139,12 @@ module Safemode
     abs
     blank?
     ceil
-    chr
     coerce
     div
     divmod
     downto
     floor
+    chr
     id2name
     integer?
     modulo
@@ -239,12 +239,12 @@ module Safemode
     abs
     blank?
     ceil
-    chr
     coerce
     div
     divmod
     downto
     floor
+    chr
     id2name
     integer?
     modulo
@@ -291,10 +291,6 @@ module Safemode
     capitalize!
     casecmp
     center
-    chomp
-    chomp!
-    chop
-    chop!
     concat
     count
     crypt
@@ -312,6 +308,10 @@ module Safemode
     gsub!
     hash
     hex
+    chomp
+    chomp!
+    chop
+    chop!
     include?
     index
     insert
@@ -352,16 +352,16 @@ module Safemode
     sum
     swapcase
     swapcase!
+    toeuc
     to_f
     to_i
-    to_str
-    to_sym
-    to_xs
-    toeuc
     tojis
     tosjis
+    to_str
+    to_sym
     toutf16
     toutf8
+    to_xs
     tr
     tr!
     tr_s
@@ -377,19 +377,19 @@ module Safemode
     to_int
   ),
   'Time' => %w(
-    blank?
-    _dump
     asctime
+    blank?
     ctime
     day
     dst?
+    _dump
     getgm
     getlocal
     getutc
     gmt?
-    gmt_offset
     gmtime
     gmtoff
+    gmt_offset
     hash
     hour
     httpdate
@@ -411,6 +411,7 @@ module Safemode
     to_date
     to_datetime
     to_f
+    to_formatted_s
     to_i
     tv_sec
     tv_usec
@@ -423,7 +424,6 @@ module Safemode
     yday
     year
     zone
-    to_formatted_s
   ),
   'Date' => %w(
     ajd
@@ -453,8 +453,8 @@ module Safemode
     mjd
     mon
     month
-    new_start
     newsg
+    new_start
     next
     ns?
     os?
@@ -474,8 +474,8 @@ module Safemode
     blank?
     hour
     min
-    new_offset
     newof
+    new_offset
     of
     offset
     present?
