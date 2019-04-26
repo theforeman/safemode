@@ -217,40 +217,6 @@ module Safemode
     values
     values_at
   ),
-  'Integer' => %w(
-    abs
-    blank?
-    ceil
-    coerce
-    div
-    divmod
-    downto
-    floor
-    chr
-    id2name
-    integer?
-    modulo
-    modulo
-    next
-    nonzero?
-    present?
-    quo
-    remainder
-    round
-    singleton_method_added
-    size
-    step
-    succ
-    times
-    to_f
-    to_i
-    to_int
-    to_s
-    to_sym
-    truncate
-    upto
-    zero?
-  ),
   'Range' => %w(
     any?
     begin
@@ -484,6 +450,40 @@ module Safemode
     blank?
     duplicable?
     present?
+  ),
+  'Integer' => %w(
+    abs
+    blank?
+    ceil
+    coerce
+    div
+    divmod
+    downto
+    floor
+    chr
+    id2name
+    integer?
+    modulo
+    modulo
+    next
+    nonzero?
+    present?
+    quo
+    remainder
+    round
+    singleton_method_added
+    size
+    step
+    succ
+    times
+    to_f
+    to_i
+    to_int
+    to_s
+    to_sym
+    truncate
+    upto
+    zero?
   ),
   # Bignum was unified with Integer in Ruby 2.4
   'Bignum' => %w(
