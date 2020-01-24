@@ -48,7 +48,7 @@ module Safemode
     'Array'      => %w(any? assoc at blank? collect collect! compact compact!
                     concat delete delete_at delete_if each each_index empty?
                     fetch fill first flatten flatten! hash include? index
-                    indexes indices inject insert join last length map map!
+                    indexes indices inject insert join last length map map! max min
                     nitems pop push present? rassoc reject reject! reverse
                     reverse! reverse_each rindex select shift size slice
                     slice! sort sort! transpose to_sentence uniq uniq! unshift
