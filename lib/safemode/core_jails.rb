@@ -69,7 +69,7 @@ module Safemode
                     remainder round singleton_method_added step to_f to_i
                     to_int to_s truncate zero?),
 
-    'Hash'       => %w(any? blank? clear delete delete_if each each_key
+    'Hash'       => %w(any? blank? clear delete delete_if dig each each_key
                     each_pair each_value empty? fetch has_key? has_value?
                     include? index invert key? keys length member? merge merge!
                     present? rec_merge! rehash reject reject! select shift
