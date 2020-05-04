@@ -47,20 +47,10 @@ Rake::TestTask.new(:test) do |test|
   test.verbose = true
 end
 
-if RUBY_VERSION >= "1.9"
-  desc "Generate coverage report for tests"
-  task :coverage do |cov|
-    ENV['COVERAGE'] = 'true'
-    Rake::Task[:test].execute
-  end
-else
-  require 'rcov/rcovtask'
-  Rcov::RcovTask.new do |test|
-    test.libs << 'test'
-    test.pattern = 'test/**/test_*.rb'
-    test.verbose = true
-    test.rcov_opts << '--exclude "gems/*"'
-  end
+desc "Generate coverage report for tests"
+task :coverage do |cov|
+  ENV['COVERAGE'] = 'true'
+  Rake::Task[:test].execute
 end
 
 task :default => :test

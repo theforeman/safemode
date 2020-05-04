@@ -20,9 +20,9 @@ module ActionView
 
         # code = ::ERB.new(src, nil, @view.erb_trim_mode).src
         code = ::ERB.new("<% __in_erb_template=true %>#{src}", nil, erb_trim_mode, '@output_buffer').src
-        # Ruby 1.9 prepends an encoding to the source. However this is
+        # Ruby 1.9+ prepends an encoding to the source. However this is
         # useless because you can only set an encoding on the first line
-        RUBY_VERSION >= '1.9' ? src.sub(/\A#coding:.*\n/, '') : src
+        src.sub(/\A#coding:.*\n/, '') : src
 
         code.gsub!('\\','\\\\\\') # backslashes would disappear in compile_template/modul_eval, so we escape them
 

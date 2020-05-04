@@ -18,14 +18,10 @@ class TestSafemodeEval < Test::Unit::TestCase
   end
 
   def test_unary_operators_on_instances_of_boolean_vars
-    if RUBY_VERSION != "1.8.7"
-      assert @box.eval('not false')
-      assert @box.eval('!false')
-      assert !@box.eval('not true')
-      assert !@box.eval('!true')
-    else
-      p "no unary ops under 1.8.7!"
-    end
+    assert @box.eval('not false')
+    assert @box.eval('!false')
+    assert !@box.eval('not true')
+    assert !@box.eval('!true')
   end
 
   def test_false_class_ops

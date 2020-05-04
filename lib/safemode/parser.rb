@@ -121,8 +121,8 @@ module Safemode
 
     def process_const(arg)
       sexp_type = arg.sexp_body.sexp_type # constants are encoded as: "s(:const, :Encoding)"
-      if RUBY_VERSION >= "1.9" && sexp_type == :Encoding
-        # handling of Encoding constants in ruby 1.9.
+      if sexp_type == :Encoding
+        # handling of Encoding constants.
         # Note: ruby_parser evaluates __ENCODING__ to s(:colon2, s(:const, :Encoding), :UTF_8)
         "#{super(arg).gsub('-', '_')}"
       elsif sexp_type == :String
