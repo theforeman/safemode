@@ -5,15 +5,15 @@
 # stub: safemode 1.3.5 ruby lib
 
 Gem::Specification.new do |s|
-  s.name = "safemode"
+  s.name = "safemode".freeze
   s.version = "1.3.5"
 
-  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.require_paths = ["lib"]
-  s.authors = ["Sven Fuchs", "Peter Cooper", "Matthias Viehweger", "Kingsley Hendrickse", "Ohad Levy", "Dmitri Dolguikh"]
-  s.date = "2018-01-18"
-  s.description = "A library for safe evaluation of Ruby code based on RubyParser and Ruby2Ruby. Provides Rails ActionView template handlers for ERB and Haml."
-  s.email = "ohadlevy@gmail.com"
+  s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
+  s.require_paths = ["lib".freeze]
+  s.authors = ["Sven Fuchs".freeze, "Peter Cooper".freeze, "Matthias Viehweger".freeze, "Kingsley Hendrickse".freeze, "Ohad Levy".freeze, "Dmitri Dolguikh".freeze]
+  s.date = "2020-05-04"
+  s.description = "A library for safe evaluation of Ruby code based on RubyParser and Ruby2Ruby. Provides Rails ActionView template handlers for ERB and Haml.".freeze
+  s.email = "ohadlevy@gmail.com".freeze
   s.extra_rdoc_files = [
     "README.markdown"
   ]
@@ -47,48 +47,42 @@ Gem::Specification.new do |s|
     "test/test_safemode_eval.rb",
     "test/test_safemode_parser.rb"
   ]
-  s.homepage = "http://github.com/svenfuchs/safemode"
-  s.licenses = ["MIT"]
-  s.rubygems_version = "2.5.1"
-  s.summary = "A library for safe evaluation of Ruby code based on ParseTree/RubyParser and Ruby2Ruby"
+  s.homepage = "http://github.com/svenfuchs/safemode".freeze
+  s.licenses = ["MIT".freeze]
+  s.rubygems_version = "2.7.6".freeze
+  s.summary = "A library for safe evaluation of Ruby code based on ParseTree/RubyParser and Ruby2Ruby".freeze
 
   if s.respond_to? :specification_version then
     s.specification_version = 4
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<sexp_processor>, [">= 4.10.0"])
-      s.add_runtime_dependency(%q<ruby2ruby>, [">= 2.4.0"])
-      s.add_runtime_dependency(%q<ruby_parser>, [">= 3.10.1"])
-      s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
-      s.add_development_dependency(%q<bundler>, ["~> 1.0"])
-      s.add_development_dependency(%q<jeweler>, [">= 0"])
-      s.add_development_dependency(%q<rcov>, [">= 0"])
-      s.add_development_dependency(%q<simplecov>, [">= 0"])
-      s.add_development_dependency(%q<test-unit>, [">= 0"])
-      s.add_development_dependency(%q<rake>, [">= 0"])
+      s.add_runtime_dependency(%q<ruby2ruby>.freeze, [">= 2.4.0"])
+      s.add_runtime_dependency(%q<ruby_parser>.freeze, [">= 3.10.1"])
+      s.add_runtime_dependency(%q<sexp_processor>.freeze, [">= 4.10.0"])
+      s.add_development_dependency(%q<jeweler>.freeze, [">= 0"])
+      s.add_development_dependency(%q<rake>.freeze, [">= 0"])
+      s.add_development_dependency(%q<rdoc>.freeze, ["~> 3.12"])
+      s.add_development_dependency(%q<simplecov>.freeze, [">= 0"])
+      s.add_development_dependency(%q<test-unit>.freeze, [">= 0"])
     else
-      s.add_dependency(%q<sexp_processor>, [">= 4.10.0"])
-      s.add_dependency(%q<ruby2ruby>, [">= 2.4.0"])
-      s.add_dependency(%q<ruby_parser>, [">= 3.10.1"])
-      s.add_dependency(%q<rdoc>, ["~> 3.12"])
-      s.add_dependency(%q<bundler>, ["~> 1.0"])
-      s.add_dependency(%q<jeweler>, [">= 0"])
-      s.add_dependency(%q<rcov>, [">= 0"])
-      s.add_dependency(%q<simplecov>, [">= 0"])
-      s.add_dependency(%q<test-unit>, [">= 0"])
-      s.add_dependency(%q<rake>, [">= 0"])
+      s.add_dependency(%q<ruby2ruby>.freeze, [">= 2.4.0"])
+      s.add_dependency(%q<ruby_parser>.freeze, [">= 3.10.1"])
+      s.add_dependency(%q<sexp_processor>.freeze, [">= 4.10.0"])
+      s.add_dependency(%q<jeweler>.freeze, [">= 0"])
+      s.add_dependency(%q<rake>.freeze, [">= 0"])
+      s.add_dependency(%q<rdoc>.freeze, ["~> 3.12"])
+      s.add_dependency(%q<simplecov>.freeze, [">= 0"])
+      s.add_dependency(%q<test-unit>.freeze, [">= 0"])
     end
   else
-    s.add_dependency(%q<sexp_processor>, [">= 4.10.0"])
-    s.add_dependency(%q<ruby2ruby>, [">= 2.4.0"])
-    s.add_dependency(%q<ruby_parser>, [">= 3.10.1"])
-    s.add_dependency(%q<rdoc>, ["~> 3.12"])
-    s.add_dependency(%q<bundler>, ["~> 1.0"])
-    s.add_dependency(%q<jeweler>, [">= 0"])
-    s.add_dependency(%q<rcov>, [">= 0"])
-    s.add_dependency(%q<simplecov>, [">= 0"])
-    s.add_dependency(%q<test-unit>, [">= 0"])
-    s.add_dependency(%q<rake>, [">= 0"])
+    s.add_dependency(%q<ruby2ruby>.freeze, [">= 2.4.0"])
+    s.add_dependency(%q<ruby_parser>.freeze, [">= 3.10.1"])
+    s.add_dependency(%q<sexp_processor>.freeze, [">= 4.10.0"])
+    s.add_dependency(%q<jeweler>.freeze, [">= 0"])
+    s.add_dependency(%q<rake>.freeze, [">= 0"])
+    s.add_dependency(%q<rdoc>.freeze, ["~> 3.12"])
+    s.add_dependency(%q<simplecov>.freeze, [">= 0"])
+    s.add_dependency(%q<test-unit>.freeze, [">= 0"])
   end
 end
 
