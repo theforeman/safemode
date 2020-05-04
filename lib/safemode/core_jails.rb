@@ -51,8 +51,8 @@ module Safemode
                     indexes indices inject insert join last length map map!
                     nitems pop push present? rassoc reject reject! reverse
                     reverse! reverse_each rindex select shift size slice
-                    slice! sort sort! transpose uniq uniq! unshift values_at
-                    zip),
+                    slice! sort sort! transpose to_sentence uniq uniq! unshift
+                    values_at zip),
 
     'Bignum'     => %w(abs blank? ceil chr coerce div divmod downto floor hash
                     integer? modulo next nonzero? present? quo remainder round
