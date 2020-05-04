@@ -9,7 +9,6 @@ gem 'sexp_processor', '>= 4.10.0'
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
 group :development do
-  gem 'bundler', '~> 1.0'
   gem 'jeweler'
   gem 'rake'
   gem 'rdoc', '~> 3.12'
