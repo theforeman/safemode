@@ -15,3 +15,8 @@ doc
 # jeweler generated
 pkg
 Gemfile.lock
+
+# locally important files, very dev-specific
+.tool-versions
+.ruby-version
+.ruby-gemset
