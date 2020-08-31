@@ -3,18 +3,14 @@ os: linux
 dist: xenial
 language: ruby
 rvm:
-  - 2.0.0
-  - 2.1.10
-  - 2.2.6
-  - 2.3.3
-  - 2.4.0
-  - 2.5.1
+  - 2.2
+  - 2.3
+  - 2.4
+  - 2.5
   - 2.6
   - 2.7
   - jruby-9
 matrix:
   allow_failures:
-    - rvm: 2.0.0
-    - rvm: 2.1.10
     - rvm: jruby-9
 before_install: gem install bundler --version 1.17.3
