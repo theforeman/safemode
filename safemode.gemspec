@@ -15,12 +15,13 @@ Gem::Specification.new do |s|
   s.description = "A library for safe evaluation of Ruby code based on RubyParser and Ruby2Ruby. Provides Rails ActionView template handlers for ERB and Haml.".freeze
   s.email = "ohadlevy@gmail.com".freeze
   s.extra_rdoc_files = [
+    "LICENSE",
     "README.markdown"
   ]
   s.files = [
     ".travis.yml",
     "Gemfile",
-    "LICENCSE",
+    "LICENSE",
     "README.markdown",
     "Rakefile",
     "VERSION",
