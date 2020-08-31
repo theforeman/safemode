@@ -23,7 +23,7 @@ require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "safemode"
-  gem.homepage = "http://github.com/svenfuchs/safemode"
+  gem.homepage = "https://github.com/svenfuchs/safemode"
   gem.license = "MIT"
   gem.summary = %Q{A library for safe evaluation of Ruby code based on ParseTree/RubyParser and Ruby2Ruby}
   gem.description = %Q{A library for safe evaluation of Ruby code based on RubyParser and Ruby2Ruby. Provides Rails ActionView template handlers for ERB and Haml.}

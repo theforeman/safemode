@@ -47,7 +47,7 @@ Gem::Specification.new do |s|
     "test/test_safemode_eval.rb",
     "test/test_safemode_parser.rb"
   ]
-  s.homepage = "http://github.com/svenfuchs/safemode".freeze
+  s.homepage = "https://github.com/svenfuchs/safemode".freeze
   s.licenses = ["MIT".freeze]
   s.rubygems_version = "2.7.6".freeze
   s.summary = "A library for safe evaluation of Ruby code based on ParseTree/RubyParser and Ruby2Ruby".freeze
