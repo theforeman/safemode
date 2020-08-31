@@ -12,8 +12,6 @@ group :development do
   gem 'jeweler'
   gem 'rake'
   gem 'rdoc', '~> 3.12'
-  # rubocop:disable Style/SymbolArray,Metrics/LineLength
-  gem 'simplecov', platforms: [:ruby_20, :ruby_21, :ruby_22, :ruby_23, :ruby_24, :ruby_25, :jruby]
-  gem 'test-unit', platforms: [:ruby_20, :ruby_21, :ruby_22, :ruby_23, :ruby_24, :ruby_25, :jruby]
-  # rubocop:enable Style/SymbolArray,Metrics/LineLength
+  gem 'simplecov'
+  gem 'test-unit'
 end
