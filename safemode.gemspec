@@ -19,7 +19,6 @@ Gem::Specification.new do |s|
     "README.markdown"
   ]
   s.files = [
-    ".travis.yml",
     "Gemfile",
     "LICENSE",
     "README.markdown",

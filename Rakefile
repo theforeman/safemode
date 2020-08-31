@@ -36,6 +36,7 @@ Jeweler::Tasks.new do |gem|
     "Ohad Levy",
     "Dmitri Dolguikh",
   ]
+  gem.files.exclude '.travis.yml'
   # dependencies defined in Gemfile
 end
 Jeweler::RubygemsDotOrgTasks.new
