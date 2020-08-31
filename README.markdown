@@ -54,9 +54,9 @@ class is only accessible when returned by a method or passed into a template.
 For more details about the concepts behind Safemode please refer to the 
 following blog posts until a more comprehensive writeup is available:
 
-* Initial reasoning: [http://www.artweb-design.de/2008/2/5/sexy-theme-templating-with-haml-safemode-finally](http://www.artweb-design.de/2008/2/5/sexy-theme-templating-with-haml-safemode-finally)
-* Refined concept: [http://www.artweb-design.de/2008/2/17/sending-ruby-to-the-jail-an-attemp-on-a-haml-safemode](http://www.artweb-design.de/2008/2/17/sending-ruby-to-the-jail-an-attemp-on-a-haml-safemode)
-* ActionView ERB handler: [http://www.artweb-design.de/2008/4/22/an-erb-safemode-handler-for-actionview](http://www.artweb-design.de/2008/4/22/an-erb-safemode-handler-for-actionview)
+* Initial reasoning: http://www.artweb-design.de/2008/2/5/sexy-theme-templating-with-haml-safemode-finally
+* Refined concept: http://www.artweb-design.de/2008/2/17/sending-ruby-to-the-jail-an-attemp-on-a-haml-safemode
+* ActionView ERB handler: http://www.artweb-design.de/2008/4/22/an-erb-safemode-handler-for-actionview
 
 ### Dependencies
 
@@ -66,14 +66,14 @@ Requires the gems:
 * Ruby2Ruby
 
 As of writing RubyParser alters StringIO and thus breaks usage with Rails.
-See [http://www.zenspider.com/pipermail/parsetree/2008-April/000026.html](http://www.zenspider.com/pipermail/parsetree/2008-April/000026.html)
+See http://www.zenspider.com/pipermail/parsetree/2008-April/000026.html
 
 A patch is included that fixes this issue and can be applied to RubyParser.
 See lib/ruby\_parser\_string\_io\_patch.diff
 
 ### Credits
 
-* Sven Fuchs - Maintainer
+* Sven Fuchs - Initial Maintainer
 * Peter Cooper
 * Matthias Viehweger
 * Ohad Levy
