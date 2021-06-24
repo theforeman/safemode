@@ -155,6 +155,21 @@ class Article::ExtendedJail < Article::Jail
 end
 
 class Comment::Jail < Safemode::Jail
-  allow :article, :text
+  allow :article, :text, :object_id
   allow_class_method :all
 end
+
+class ExtendedComment < Comment
+  def extended_text
+    "extended comment #{object_id}"
+  end
+
+  def to_jail
+    ExtendedComment::Jail.new self
+  end
+
+  class Jail < Comment::Jail
+    allow :extended_text
+  end
+end
+

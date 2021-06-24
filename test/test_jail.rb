@@ -5,6 +5,7 @@ class TestJail < Test::Unit::TestCase
     @article = Article.new.to_jail
     @comment = @article.comments.first
     @comment_class = Comment.to_jail
+    @extended_comment = ExtendedComment.new(@article).to_jail
   end
 
   def test_explicitly_allowed_instance_methods_should_be_accessible
@@ -54,6 +55,14 @@ class TestJail < Test::Unit::TestCase
   def test_respond_to_works_correctly
     assert @article.respond_to?(:title)
     assert !@article.respond_to?(:bogus)
+  end
+
+  def test_methodcall_comment
+    assert_equal "comment #{@comment.object_id}", @comment.text
+  end
+
+  def test_methodcall_extended_comment
+    assert_equal "extended comment #{@extended_comment.object_id}", @extended_comment.extended_text
   end
 
   private
