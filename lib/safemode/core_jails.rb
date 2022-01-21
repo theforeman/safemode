@@ -70,7 +70,7 @@ module Safemode
                     to_int to_s truncate zero?),
 
     'Hash'       => %w(any? blank? clear delete delete_if each each_key
-                    each_pair each_value empty? fetch has_key? has_value?
+                    each_pair each_value empty? fetch dig has_key? has_value?
                     include? index invert key? keys length member? merge merge!
                     present? rec_merge! rehash reject reject! select shift
                     size sort store update value? values values_at),
