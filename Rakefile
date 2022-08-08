@@ -36,7 +36,7 @@ Jeweler::Tasks.new do |gem|
     "Ohad Levy",
     "Dmitri Dolguikh",
   ]
-  gem.files.exclude '.travis.yml'
+  gem.files.exclude '.github/workflows/ci.yml'
   # dependencies defined in Gemfile
 end
 Jeweler::RubygemsDotOrgTasks.new
