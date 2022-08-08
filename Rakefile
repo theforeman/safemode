@@ -37,6 +37,7 @@ Jeweler::Tasks.new do |gem|
     "Dmitri Dolguikh",
   ]
   gem.files.exclude '.github/workflows/ci.yml'
+  gem.required_ruby_version = '>= 2.5', '< 4'
   # dependencies defined in Gemfile
 end
 Jeweler::RubygemsDotOrgTasks.new
