@@ -59,7 +59,7 @@ task :default => :test
 
 require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
+  version = Gem::Specification.find_by_name('safemode').version
 
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title = "safemode #{version}"

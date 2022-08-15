@@ -23,7 +23,6 @@ Gem::Specification.new do |s|
     "LICENSE",
     "README.markdown",
     "Rakefile",
-    "VERSION",
     "demo.rb",
     "init.rb",
     "lib/action_view/template_handlers/safe_erb.rb",
