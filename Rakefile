@@ -19,29 +19,6 @@ end
 end
 require 'rake'
 
-require 'jeweler'
-Jeweler::Tasks.new do |gem|
-  # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name = "safemode"
-  gem.homepage = "https://github.com/svenfuchs/safemode"
-  gem.license = "MIT"
-  gem.summary = %Q{A library for safe evaluation of Ruby code based on ParseTree/RubyParser and Ruby2Ruby}
-  gem.description = %Q{A library for safe evaluation of Ruby code based on RubyParser and Ruby2Ruby. Provides Rails ActionView template handlers for ERB and Haml.}
-  gem.email = "ohadlevy@gmail.com"
-  gem.authors = [
-    "Sven Fuchs",
-    "Peter Cooper",
-    "Matthias Viehweger",
-    "Kingsley Hendrickse",
-    "Ohad Levy",
-    "Dmitri Dolguikh",
-  ]
-  gem.files.exclude '.github/workflows/ci.yml'
-  gem.required_ruby_version = '>= 2.5', '< 4'
-  # dependencies defined in Gemfile
-end
-Jeweler::RubygemsDotOrgTasks.new
-
 require 'rake/testtask'
 Rake::TestTask.new(:test) do |test|
   test.libs << 'lib' << 'test'
