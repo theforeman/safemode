@@ -49,6 +49,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = "https://github.com/svenfuchs/safemode".freeze
   s.licenses = ["MIT".freeze]
+  s.required_ruby_version = Gem::Requirement.new([">= 2.5".freeze, "< 4".freeze])
   s.rubygems_version = "2.7.6".freeze
   s.summary = "A library for safe evaluation of Ruby code based on ParseTree/RubyParser and Ruby2Ruby".freeze
 
