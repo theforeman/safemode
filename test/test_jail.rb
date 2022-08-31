@@ -24,6 +24,16 @@ class TestJail < Test::Unit::TestCase
     assert_equal "Article::Jail", @article.class.name
   end
 
+  def test_sending_of_kwargs_works
+    assert @article.method_with_kwargs(a_keyword: true)
+  end
+
+  def test_sending_to_method_missing
+    assert_raise_with_message(Safemode::NoMethodError, /#no_such_method/) do
+      @article.no_such_method('arg', key: 'value')
+    end
+  end
+
   def test_jail_instances_should_have_limited_methods
     expected = ["class", "method_missing", "methods", "respond_to?", "to_jail", "to_s", "instance_variable_get"]
     objects.each do |object|

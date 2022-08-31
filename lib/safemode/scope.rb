@@ -30,11 +30,11 @@ module Safemode
       @_safemode_output
     end
 
-    def method_missing(method, *args, &block)
+    def method_missing(method, *args, **kwargs, &block)
       if @locals.has_key?(method)
         @locals[method]
       elsif @delegate_methods.include?(method)
-        @delegate.send method, *unjail_args(args), &block
+        @delegate.send method, *unjail_args(args), **unjail_kwargs(kwargs), &block
       else
         raise Safemode::SecurityError.new(method, "#<Safemode::ScopeObject>")
       end
@@ -49,10 +49,16 @@ module Safemode
         end
       end
 
+      def unjail(arg)
+        arg.class.name.end_with?('::Jail') ? arg.instance_variable_get(:@source) : arg
+      end
+
       def unjail_args(args)
-        args.collect do |arg|
-          arg.class.name =~ /::Jail$/ ? arg.instance_variable_get(:@source) : arg
-        end
+        args.collect { |arg| unjail(arg) }
+      end
+
+      def unjail_kwargs(kwargs)
+        kwargs.map { |key, value| [unjail(key), unjail(value)] }.to_h
       end
   end
 end
