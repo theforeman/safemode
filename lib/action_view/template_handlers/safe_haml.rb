@@ -6,7 +6,7 @@ module ActionView
     class SafeHaml < TemplateHandler
       include Compilable rescue nil # does not exist prior Rails 2.1
       extend SafemodeHandler
-      
+
       def self.line_offset
       3
       end
