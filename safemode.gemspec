@@ -36,7 +36,6 @@ Gem::Specification.new do |s|
     "lib/action_view/template_handlers/safe_haml.rb",
     "lib/action_view/template_handlers/safemode_handler.rb",
     "lib/haml/safemode.rb",
-    "lib/ruby_parser_string_io_patch.diff",
     "lib/rubyparser_bug.rb",
     "lib/safemode.rb",
     "lib/safemode/blankslate.rb",

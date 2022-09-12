@@ -67,12 +67,6 @@ Requires the gems:
 * RubyParser
 * Ruby2Ruby
 
-As of writing RubyParser alters StringIO and thus breaks usage with Rails.
-See http://www.zenspider.com/pipermail/parsetree/2008-April/000026.html
-
-A patch is included that fixes this issue and can be applied to RubyParser.
-See lib/ruby\_parser\_string\_io\_patch.diff
-
 ### Credits
 
 * Sven Fuchs - Initial Maintainer
