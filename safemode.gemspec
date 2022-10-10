@@ -52,7 +52,7 @@ Gem::Specification.new do |s|
     "test/test_safemode_parser.rb"
   ]
 
-  s.required_ruby_version = ">= 2.7", "< 4"
+  s.required_ruby_version = ">= 2.7", "< 3"
 
   s.add_runtime_dependency "ruby2ruby", ">= 2.4.0"
   s.add_runtime_dependency "ruby_parser", ">= 3.10.1"
