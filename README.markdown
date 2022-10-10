@@ -23,9 +23,11 @@ For manual evaluation of Ruby code and ERB templates see demo.rb
 You can use the ActionView template handlers by registering them, e.g., in 
 a config/initializer file like this:
 
-    # in config/intializer/safemode_tempate_handlers.rb
-    ActionView::Template.register_template_handler :serb, ActionView::TemplateHandlers::SafeErb
-    ActionView::Template.register_template_handler :haml, ActionView::TemplateHandlers::SafeHaml
+```ruby
+# in config/intializer/safemode_tempate_handlers.rb
+ActionView::Template.register_template_handler :serb, ActionView::TemplateHandlers::SafeErb
+ActionView::Template.register_template_handler :haml, ActionView::TemplateHandlers::SafeHaml
+```
 
 If you register the ERB template handler for the file extension :erb be aware
 that this most probably will break when your application tries to render an
@@ -36,11 +38,13 @@ You will then have to "whitelist" all method calls to the objects that are
 registered as template variables by explicitely allowing access to them. You
 can do that by defining a Safemode::Jail class for your classes, like so:
 
-    class User
-      class Jail < Safemode::Jail
-        allow :name
-      end
-    end
+```ruby
+class User
+  class Jail < Safemode::Jail
+    allow :name
+  end
+end
+```
 
 This will allow your template users to access the name method on your User 
 objects.
