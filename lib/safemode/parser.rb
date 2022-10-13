@@ -36,12 +36,12 @@ module Safemode
 
     # split up #process_call. see below ...
     def process_call(exp, safe_call = false)
-      exp.shift # remove ":call" symbol
-      receiver = jail(process_call_receiver(exp), safe_call: safe_call)
-      name = exp.shift
-      args = process_call_args(exp)
+      _, recv, name, *args = exp
 
-      process_call_code(receiver, name, args, safe_call)
+      receiver = jail(process_call_receiver(recv), safe_call: safe_call)
+      arguments = process_call_args(name, args)
+
+      process_call_code(receiver, name, arguments, safe_call)
     end
 
     def process_fcall(exp)
@@ -143,26 +143,35 @@ module Safemode
     # split up Ruby2Ruby#process_call monster method so we can hook into it
     # in a more readable manner
 
-    def process_call_receiver(exp)
-      receiver_node_type = exp.first.nil? ? nil : exp.first.first
-      receiver = process exp.shift
-      receiver = "(#{receiver})" if
-        Ruby2Ruby::ASSIGN_NODES.include? receiver_node_type
+    def process_call_receiver(recv)
+      receiver_node_type = recv && recv.sexp_type
+      receiver = process recv
+      receiver = "(#{receiver})" if ASSIGN_NODES.include? receiver_node_type
       receiver
     end
 
-    def process_call_args(exp)
-      args = []
-      while not exp.empty? do
-        args_exp = exp.shift
-        if args_exp && args_exp.first == :array # FIX
-          processed = "#{process(args_exp)[1..-2]}"
-        else
-          processed = process args_exp
-        end
-        args << processed unless (processed.nil? or processed.empty?)
+    def process_call_args(name, args)
+      in_context :arglist do
+        max = args.size - 1
+        args = args.map.with_index { |arg, i|
+          arg_type = arg.sexp_type
+          is_empty_hash = arg == s(:hash)
+          arg = process arg
+
+          next if arg.empty?
+
+          strip_hash = (arg_type == :hash and
+                        not BINARY.include? name and
+                        not is_empty_hash and
+                        (i == max or args[i + 1].sexp_type == :splat))
+          wrap_arg = Ruby2Ruby::ASSIGN_NODES.include? arg_type
+
+          arg = arg[2..-3] if strip_hash
+          arg = "(#{arg})" if wrap_arg
+
+          arg
+        }.compact
       end
-      args
     end
 
     def process_call_code(receiver, name, args, safe_call)

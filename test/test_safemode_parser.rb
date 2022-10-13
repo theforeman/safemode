@@ -25,13 +25,31 @@ class TestSafemodeParser < Test::Unit::TestCase
     assert_jailed "if true then\n 1\n else\n2\nend", "true ? 1 : 2"
   end
 
+  def test_call_with_shorthand
+    unsafe = <<~UNSAFE
+      a_keyword = true
+      @article.method_with_kwargs(a_keyword:)
+    UNSAFE
+    jailed = <<~JAILED
+      a_keyword = true
+      @article.to_jail.method_with_kwargs(a_keyword:)
+    JAILED
+    assert_jailed jailed, unsafe
+  end
+
+  def test_call_with_complex_args
+    unsafe = "@article.method_with_kwargs('positional', a_keyword: true, **kwargs)"
+    jailed = "@article.to_jail.method_with_kwargs(\"positional\", :a_keyword => true, **to_jail.kwargs)"
+    assert_jailed jailed, unsafe
+  end
+
   def test_safe_call_simple
     assert_jailed '@article&.to_jail&.method', '@article&.method'
   end
 
   def test_safe_call_with_complex_args
-    unsafe = "@article&.method_with_kwargs('positional')"
-    jailed = "@article&.to_jail&.method_with_kwargs(\"positional\")"
+    unsafe = "@article&.method_with_kwargs('positional', a_keyword: true, **kwargs)"
+    jailed = "@article&.to_jail&.method_with_kwargs(\"positional\", :a_keyword => true, **to_jail.kwargs)"
     assert_jailed jailed, unsafe
   end
 
