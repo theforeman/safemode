@@ -25,6 +25,16 @@ class TestSafemodeParser < Test::Unit::TestCase
     assert_jailed "if true then\n 1\n else\n2\nend", "true ? 1 : 2"
   end
 
+  def test_safe_call_simple
+    assert_jailed '@article&.to_jail&.method', '@article&.method'
+  end
+
+  def test_safe_call_with_complex_args
+    unsafe = "@article&.method_with_kwargs('positional')"
+    jailed = "@article&.to_jail&.method_with_kwargs(\"positional\")"
+    assert_jailed jailed, unsafe
+  end
+
   def test_output_buffer_should_be_assignable
     assert_nothing_raised do
       jail('@output_buffer = ""')

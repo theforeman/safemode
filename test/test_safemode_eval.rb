@@ -17,6 +17,10 @@ class TestSafemodeEval < Test::Unit::TestCase
     end
   end
 
+   def test_safe_navigation_operator
+     assert_equal "1", @box.eval('x = 1; x&.to_s')
+   end
+
   def test_unary_operators_on_instances_of_boolean_vars
     assert @box.eval('not false')
     assert @box.eval('!false')
