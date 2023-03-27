@@ -80,6 +80,10 @@ class TestSafemodeEval < Test::Unit::TestCase
     assert_raise_security '"#{`ls -a`}"'
   end
 
+  def test_should_not_allow_access_to_bind
+    assert_raise_security "self.bind('an arg')"
+  end
+
   TestHelper.no_method_error_raising_calls.each do |call|
     call.gsub!('"', '\\\\"')
     class_eval %Q(

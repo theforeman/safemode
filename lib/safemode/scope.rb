@@ -1,17 +1,17 @@
 module Safemode
   class Scope < Blankslate
-    def initialize(delegate = nil, delegate_methods = [])
+    def initialize(delegate = nil, delegate_methods = [], instance_vars: {}, locals: {}, &block)
       @delegate = delegate        
       @delegate_methods = delegate_methods
-      @locals = {}
-    end
-    
-    def bind(instance_vars = {}, locals = {}, &block)
       @locals = symbolize_keys(locals) # why can't I just pull them to local scope in the same way like instance_vars?
       instance_vars = symbolize_keys(instance_vars)
       instance_vars.each {|key, obj| eval "@#{key} = instance_vars[:#{key}]" }
       @_safemode_output = ''
-      binding
+      @binding = binding
+    end
+
+    def get_binding
+      @binding
     end
   
     def to_jail
