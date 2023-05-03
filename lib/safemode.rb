@@ -48,12 +48,12 @@ module Safemode
 
     def eval(code, assigns = {}, locals = {}, &block)
       code = Parser.jail(code)
-      scope = Scope.new(@delegate, @delegate_methods, instance_vars: assigns, locals: locals, &block)
-      result = Kernel.eval(code, scope.get_binding, @filename || __FILE__, @line || __LINE__)
+      @scope = Scope.new(@delegate, @delegate_methods, instance_vars: assigns, locals: locals, &block)
+      Kernel.eval(code, @scope.get_binding, @filename || __FILE__, @line || __LINE__)
     end
-    
+
     def output
       @scope.output
-    end 
+    end
   end
 end
