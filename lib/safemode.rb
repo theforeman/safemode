@@ -40,19 +40,20 @@ module Safemode
   
   class Box
     def initialize(delegate = nil, delegate_methods = [], filename = nil, line = nil)
-      @scope = Scope.new(delegate, delegate_methods)
+      @delegate = delegate
+      @delegate_methods = delegate_methods
       @filename = filename
       @line = line
     end    
 
     def eval(code, assigns = {}, locals = {}, &block)
       code = Parser.jail(code)
-      binding = @scope.bind(assigns, locals, &block)
-      result = Kernel.eval(code, binding, @filename || __FILE__, @line || __LINE__)
+      @scope = Scope.new(@delegate, @delegate_methods, instance_vars: assigns, locals: locals, &block)
+      Kernel.eval(code, @scope.get_binding, @filename || __FILE__, @line || __LINE__)
     end
-    
+
     def output
       @scope.output
-    end 
+    end
   end
 end
