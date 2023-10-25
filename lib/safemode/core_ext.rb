@@ -1,12 +1,12 @@
-module Kernel  
+module Kernel
   def silently(&blk)
     old_verbose, $VERBOSE = $VERBOSE, nil
     yield
     $VERBOSE = old_verbose
-  end   
+  end
 end
 
-class Module  
+class Module
   def undef_methods(*methods)
     methods.each { |name| undef_method(name) }
   end
@@ -29,7 +29,7 @@ end
 #     Safemode.jail collect{ |obj| obj.to_jail }
 #   end
 # end
-# 
+#
 # class Hash
 #   def to_jail
 #     hash = {}

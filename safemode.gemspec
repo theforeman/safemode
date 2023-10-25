@@ -36,8 +36,6 @@ Gem::Specification.new do |s|
     "lib/action_view/template_handlers/safe_haml.rb",
     "lib/action_view/template_handlers/safemode_handler.rb",
     "lib/haml/safemode.rb",
-    "lib/ruby_parser_string_io_patch.diff",
-    "lib/rubyparser_bug.rb",
     "lib/safemode.rb",
     "lib/safemode/blankslate.rb",
     "lib/safemode/core_ext.rb",
@@ -54,7 +52,7 @@ Gem::Specification.new do |s|
     "test/test_safemode_parser.rb"
   ]
 
-  s.required_ruby_version = ">= 2.5", "< 4"
+  s.required_ruby_version = ">= 2.7", "< 3"
 
   s.add_runtime_dependency "ruby2ruby", ">= 2.4.0"
   s.add_runtime_dependency "ruby_parser", ">= 3.10.1"
