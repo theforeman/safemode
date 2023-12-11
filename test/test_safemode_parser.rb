@@ -38,8 +38,8 @@ class TestSafemodeParser < Test::Unit::TestCase
   end
 
   def test_call_with_complex_args
-    unsafe = "@article.method_with_kwargs('positional', a_keyword: true, **kwargs)"
-    jailed = "@article.to_jail.method_with_kwargs(\"positional\", :a_keyword => true, **to_jail.kwargs)"
+    unsafe = "kwargs = { b_keyword: false }; @article.method_with_kwargs('positional', a_keyword: true, **kwargs)"
+    jailed = "kwargs = { :b_keyword => false }\n@article.to_jail.method_with_kwargs(\"positional\", :a_keyword => true, **kwargs)\n"
     assert_jailed jailed, unsafe
   end
 
@@ -48,8 +48,8 @@ class TestSafemodeParser < Test::Unit::TestCase
   end
 
   def test_safe_call_with_complex_args
-    unsafe = "@article&.method_with_kwargs('positional', a_keyword: true, **kwargs)"
-    jailed = "@article&.to_jail&.method_with_kwargs(\"positional\", :a_keyword => true, **to_jail.kwargs)"
+    unsafe = "kwargs = { b_keyword: false }; @article&.method_with_kwargs('positional', a_keyword: true, **kwargs)"
+    jailed = "kwargs = { :b_keyword => false }\n@article&.to_jail&.method_with_kwargs(\"positional\", :a_keyword => true, **kwargs)\n"
     assert_jailed jailed, unsafe
   end
 
