@@ -29,7 +29,7 @@ module Safemode
     def jail(str, parentheses = false, safe_call: false)
       str = if str
               dot = safe_call ? "&." : "."
-              parentheses ? "(#{str})&#{dot}" : "#{str}#{dot}"
+              parentheses ? "(#{str})#{dot}" : "#{str}#{dot}"
             end
       "#{str}to_jail"
     end
