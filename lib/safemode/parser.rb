@@ -26,19 +26,22 @@ module Safemode
       end
     end
 
-    def jail(str, parentheses = false)
-      str = parentheses ? "(#{str})." : "#{str}." if str
+    def jail(str, parentheses = false, safe_call: false)
+      str = if str
+              dot = safe_call ? "&." : "."
+              parentheses ? "(#{str})#{dot}" : "#{str}#{dot}"
+            end
       "#{str}to_jail"
     end
 
     # split up #process_call. see below ...
-    def process_call(exp)
+    def process_call(exp, safe_call = false)
       exp.shift # remove ":call" symbol
-      receiver = jail process_call_receiver(exp)
+      receiver = jail(process_call_receiver(exp), safe_call: safe_call)
       name = exp.shift
       args = process_call_args(exp)
 
-      process_call_code(receiver, name, args)
+      process_call_code(receiver, name, args, safe_call)
     end
 
     def process_fcall(exp)
@@ -159,25 +162,39 @@ module Safemode
         end
         args << processed unless (processed.nil? or processed.empty?)
       end
-      args.empty? ? nil : args.join(", ")
+      args
     end
 
-    def process_call_code(receiver, name, args)
+    def process_call_code(receiver, name, args, safe_call)
       case name
-      when :<=>, :==, "!=".to_sym, :<, :>, :<=, :>=, :-, :+, :*, :/, :%, :<<, :>>, :** then
-        "(#{receiver} #{name} #{args})"
+      when *BINARY then
+        if safe_call
+          "#{receiver}&.#{name}(#{args.join(", ")})"
+        elsif args.length > 1
+          "#{receiver}.#{name}(#{args.join(", ")})"
+        else
+          "(#{receiver} #{name} #{args.join(", ")})"
+        end
       when :[] then
-        "#{receiver}[#{args}]"
+        receiver ||= "self"
+        "#{receiver}[#{args.join(", ")}]"
+      when :[]= then
+        receiver ||= "self"
+        rhs = args.pop
+        "#{receiver}[#{args.join(", ")}] = #{rhs}"
+      when :"!" then
+        "(not #{receiver})"
       when :"-@" then
         "-#{receiver}"
       when :"+@" then
         "+#{receiver}"
       else
-        unless receiver.nil? then
-          "#{receiver}.#{name}#{args ? "(#{args})" : args}"
-        else
-          "#{name}#{args ? "(#{args})" : args}"
-        end
+        args     = nil                    if args.empty?
+        args     = "(#{args.join(", ")})" if args
+        receiver = "#{receiver}."         if receiver and not safe_call
+        receiver = "#{receiver}&."        if receiver and safe_call
+
+        "#{receiver}#{name}#{args}"
       end
     end
 
