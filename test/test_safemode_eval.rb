@@ -88,6 +88,16 @@ class TestSafemodeEval < Test::Unit::TestCase
     assert_raise_security "self.bind('an arg')"
   end
 
+  def test_sending_of_kwargs_works
+    assert @box.eval("@article.method_with_kwargs(a_keyword: true)", @assigns)
+  end
+
+  def test_sending_to_method_missing
+    assert_raise_with_message(Safemode::NoMethodError, /#no_such_method/) do
+      @box.eval("@article.no_such_method('arg', key: 'value')", @assigns)
+    end
+  end
+
   TestHelper.no_method_error_raising_calls.each do |call|
     call.gsub!('"', '\\\\"')
     class_eval %Q(

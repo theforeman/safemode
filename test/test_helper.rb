@@ -110,8 +110,12 @@ class Article
     Comment
   end
 
-  def method_missing(method, *args, &block)
-    super(method, *args, &block)
+  def method_with_kwargs(a_keyword: false)
+    a_keyword
+  end
+
+  def method_missing(method, *args, **kwargs, &block)
+    super
   end
 end
 
@@ -144,7 +148,7 @@ class Comment
 end
 
 class Article::Jail < Safemode::Jail
-  allow :title, :comments, :is_article?, :comment_class
+  allow :title, :comments, :is_article?, :comment_class, :method_with_kwargs
 
   def author_name
     "this article's author name"

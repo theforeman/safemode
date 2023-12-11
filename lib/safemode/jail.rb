@@ -12,7 +12,7 @@ module Safemode
       @source.to_s
     end
 
-    def method_missing(method, *args, &block)
+    def method_missing(method, *args, **kwargs, &block)
       if @source.is_a?(Class)
         unless self.class.allowed_class_method?(method)
           raise Safemode::NoMethodError.new(".#{method}", self.class.name, @source.name)
@@ -28,7 +28,7 @@ module Safemode
       # don't need to jail objects returned from a jail. Doing so would provide
       # "double" protection, but it also would break using a return value in an if
       # statement, passing them to a Rails helper etc.
-      @source.send(method, *args, &block)
+      @source.send(method, *args, **kwargs, &block)
     end
 
     def respond_to_missing?(method_name, include_private = false)
