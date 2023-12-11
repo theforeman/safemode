@@ -18,6 +18,7 @@ jobs:
       matrix:
         ruby:
           - "2.7"
+          - "3.0"
     steps:
       - uses: actions/checkout@v3
       - uses: ruby/setup-ruby@v1
