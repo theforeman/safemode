@@ -46,8 +46,8 @@ module Safemode
   # whitelisted methods for core classes ... kind of arbitrary selection
   @@methods_whitelist = {
     'Array'      => %w(any? assoc at blank? collect collect! compact compact!
-                    concat delete delete_at delete_if each each_index empty?
-                    fetch fill first flatten flatten! hash include? index
+                    concat delete delete_at delete_if each each_index each_with_index
+                    empty? fetch fill first flatten flatten! hash include? index
                     indexes indices inject insert join last length map map! max min
                     nitems pop push present? rassoc reject reject! reverse
                     reverse! reverse_each rindex select shift size slice
@@ -69,8 +69,8 @@ module Safemode
                     remainder round singleton_method_added step to_f to_i
                     to_int to_s truncate zero?),
 
-    'Hash'       => %w(any? blank? clear delete delete_if each each_key
-                    each_pair each_value empty? fetch dig has_key? has_value?
+    'Hash'       => %w(any? blank? clear delete delete_if each each_key each_pair
+                    each_value each_with_index empty? fetch dig has_key? has_value?
                     include? index invert key? keys length member? merge merge!
                     present? rec_merge! rehash reject reject! select shift
                     size sort store update value? values values_at),
