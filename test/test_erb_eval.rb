@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require File.join(File.dirname(__FILE__), 'test_helper')
 
 class TestERBEval < Test::Unit::TestCase
@@ -58,19 +60,17 @@ class TestERBEval < Test::Unit::TestCase
   end
 
   TestHelper.no_method_error_raising_calls.each do |call|
-    call.gsub!('"', '\\\\"')
     class_eval %Q(
       def test_calling_#{call.gsub(/[\W]/, '_')}_should_raise_no_method
-        assert_raise_no_method "#{call}", @assigns, @locals
+        assert_raise_no_method "#{call.gsub('"', '\\\\"')}", @assigns, @locals
       end
     )
   end
 
   TestHelper.security_error_raising_calls.each do |call|
-    call.gsub!('"', '\\\\"')
     class_eval %Q(
       def test_calling_#{call.gsub(/[\W]/, '_')}_should_raise_security
-        assert_raise_security "#{call}", @assigns, @locals
+        assert_raise_security "#{call.gsub('"', '\\\\"')}", @assigns, @locals
       end
     )
   end
