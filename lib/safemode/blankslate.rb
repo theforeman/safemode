@@ -8,6 +8,10 @@ module Safemode
       @@allow_class_methods << 'method_missing'
       (@@allow_class_methods << ['singleton_method_undefined', 'singleton_method_added']).flatten! # needed for JRuby support
     end
+    # On ruby 3.2+ this is required due to it raising a NoMethodError.
+    if RUBY_VERSION >= '3.2'
+      @@allow_class_methods << 'singleton_method_added'
+    end
 
     silently { undef_methods(*instance_methods.map(&:to_s) - @@allow_instance_methods) }
     class << self
