@@ -4,6 +4,7 @@ require File.join(File.dirname(__FILE__), 'test_helper')
 
 class TestJail < Test::Unit::TestCase
   def setup
+    @box = Safemode::Box.new
     @article = Article.new.to_jail
     @comment = @article.comments.first
     @comment_class = Comment.to_jail
@@ -77,6 +78,79 @@ class TestJail < Test::Unit::TestCase
   def test_methodcall_extended_comment
     assert_equal "extended comment #{@extended_comment.object_id}", @extended_comment.extended_text
   end
+
+    def test_it_keyword_is_jailed_in_block
+    jailed = Safemode::Parser.jail('[1,2,3].map { it }')
+    assert_match(/to_jail\.it/, jailed,
+      "`it` should be jailed via to_jail")
+  end
+
+  def test_numbered_param_is_jailed_in_block
+    jailed = Safemode::Parser.jail('[1,2,3].map { _1 }')
+    assert_match(/to_jail\._1/, jailed,
+      "`_1` should be jailed via to_jail")
+  end
+
+  def test_it_in_block_does_not_bypass_jail
+    assert_raise(Safemode::SecurityError) do
+      @box.eval('[1,2,3].map { it }')
+    end
+  end
+
+  def test_numbered_param_in_block_does_not_bypass_jail
+    assert_raise(Safemode::SecurityError) do
+      @box.eval('[1,2,3].map { _1 }')
+    end
+  end
+
+    def test_pattern_match_body_is_jailed
+    assert_raise(Safemode::SecurityError) do
+      @box.eval('case 1; in x; system("whoami"); end')
+    end
+  end
+
+  def test_pattern_match_subject_is_jailed
+    assert_raise(Safemode::SecurityError) do
+      @box.eval('case `whoami`; in x; x; end')
+    end
+  end
+
+  def test_pattern_match_deconstruct_on_array_jails_bound_var
+    assert_raise(Safemode::SecurityError) do
+      @box.eval('case [1, 2, 3]; in [x, *]; x; end')
+    end
+  end
+
+  def test_pattern_match_bound_variable_is_jailed_in_body
+    assert_raise(Safemode::SecurityError) do
+      @box.eval('case 1; in x; x; end')
+    end
+  end
+
+  def test_pattern_match_array_bound_variable_is_jailed
+    assert_raise(Safemode::SecurityError) do
+      @box.eval('case [1, 2]; in [x, y]; x; end')
+    end
+  end
+
+  def test_pattern_match_hash_bound_variable_is_jailed
+    assert_raise(Safemode::SecurityError) do
+      @box.eval('case {a: 1}; in {a: x}; x; end')
+    end
+  end
+
+  def test_rightward_assignment_bound_variable_is_jailed
+    assert_raise(Safemode::SecurityError) do
+      @box.eval('1 => x; x')
+    end
+  end
+  
+  def test_parser_jails_calls_inside_pattern_match_body
+    jailed = Safemode::Parser.jail('case 1; in x; x.to_s; end')
+    assert_match(/to_jail/, jailed,
+      "method calls in pattern match body should be jailed")
+  end
+
 
   private
 
