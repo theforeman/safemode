@@ -195,6 +195,12 @@ class TestSafemodeEval < Test::Unit::TestCase
     assert_equal "new_value", article.status
   end
 
+  def test_instance_variable_get_blocked_on_jail
+    assert_raise(Safemode::NoMethodError) do
+      @box.eval('@article.instance_variable_get(:@source)', @assigns)
+    end
+  end
+
   def test_lambda_is_blocked
     assert_raise(Safemode::SecurityError) { @box.eval('-> { 1 }') }
   end
