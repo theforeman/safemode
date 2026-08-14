@@ -196,9 +196,9 @@ class TestSafemodeEval < Test::Unit::TestCase
   end
 
   def test_freeze_on_jailed_object_is_blocked
-    arr = [1, 2, 3]
-    @box.eval('@arr.freeze', { arr: arr })
-    assert_equal false, arr.frozen?, "Sandbox code must not be able to freeze host objects"
+    assert_raise(Safemode::NoMethodError) do
+      @box.eval('@arr.freeze', { arr: [1, 2, 3] })
+    end
   end
 
   def test_lambda_is_blocked
