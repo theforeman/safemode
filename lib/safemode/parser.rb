@@ -24,6 +24,12 @@ module Safemode
     def process_call(exp, safe_call = false)
       _, recv, name, *args = exp
 
+      # ERB emits literal template text as string literals. Freezing one only
+      # affects that template-generated string, not a string passed in by the caller.
+      if name == :freeze && args.empty? && recv && recv.sexp_type == :str
+        return "(#{process recv}).freeze"
+      end
+
       receiver = jail(process_call_receiver(recv), safe_call: safe_call)
       arguments = process_call_args(name, args)
 
