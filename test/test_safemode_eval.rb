@@ -201,6 +201,20 @@ class TestSafemodeEval < Test::Unit::TestCase
     end
   end
 
+  def test_freeze_on_jailed_object_is_blocked
+    string = String.new('host value')
+    assert_raise(Safemode::NoMethodError) { @box.eval('@value.freeze', value: string) }
+    assert_false string.frozen?
+    assert_raise(Safemode::NoMethodError) do
+      @box.eval('@arr.freeze', { arr: [1, 2, 3] })
+    end
+  end
+
+  def test_freeze_on_literal_strings_supports_erb
+    assert_predicate @box.eval('"literal".freeze'), :frozen?
+    assert_equal 'Hello world', @box.eval(ERB.new('Hello <%= @name %>').src, name: 'world')
+  end
+
   def test_lambda_is_blocked
     assert_raise(Safemode::SecurityError) { @box.eval('-> { 1 }') }
   end
