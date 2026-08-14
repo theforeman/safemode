@@ -37,7 +37,7 @@ class TestJail < Test::Unit::TestCase
   end
 
   def test_jail_instances_should_have_limited_methods
-    expected = ["class", "method_missing", "methods", "respond_to?", "to_jail", "to_s", "instance_variable_get"]
+    expected = ["class", "method_missing", "methods", "respond_to?", "to_jail", "to_s"]
     objects.each do |object|
       assert_equal expected.sort, reject_pretty_methods(object.to_jail.methods.map(&:to_s).sort)
     end

@@ -49,8 +49,10 @@ module Safemode
         end
       end
 
+      IVAR_GET = Object.instance_method(:instance_variable_get)
+
       def unjail(arg)
-        arg.class.name.end_with?('::Jail') ? arg.instance_variable_get(:@source) : arg
+        arg.class.name.end_with?('::Jail') ? IVAR_GET.bind_call(arg, :@source) : arg
       end
 
       def unjail_args(args)
