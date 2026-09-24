@@ -118,6 +118,12 @@ class TestSafemodeEval < Test::Unit::TestCase
     assert_equal "matched", @box.eval('y = 1; case 1; in ^y; "matched"; end')
   end
 
+  def test_pattern_matching_with_pin_expression
+    return if Gem::Version.new(RUBY_VERSION) < Gem::Version.new("3.1")
+
+    assert_equal "matched", @box.eval('case 2; in ^(1 + 1); "matched"; end')
+  end
+
   def test_pattern_matching_with_multiple_clauses
     assert_equal "second", @box.eval('case [3, 4]; in [1, 2]; "first"; in [3, 4]; "second"; end')
   end
