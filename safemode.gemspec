@@ -50,7 +50,8 @@ Gem::Specification.new do |s|
     "test/test_jail.rb",
     "test/test_safemode_eval.rb",
     "test/test_safemode_parser.rb",
-    "test/test_for_loop_jail.rb"
+    "test/test_for_loop_jail.rb",
+    "test/test_parser_node_allowlist.rb"
   ]
 
   s.required_ruby_version = ">= 3.0", "< 3.4"
