@@ -50,10 +50,11 @@ Gem::Specification.new do |s|
     "test/test_jail.rb",
     "test/test_safemode_eval.rb",
     "test/test_safemode_parser.rb",
+    "test/test_ruby_runtime_compatibility.rb",
     "test/test_for_loop_jail.rb"
   ]
 
-  s.required_ruby_version = ">= 3.0", "< 3.4"
+  s.required_ruby_version = ">= 3.0", "< 4.1"
 
   s.add_runtime_dependency "ruby2ruby", "~> 2.4"
   s.add_runtime_dependency "prism", "~> 1.0"
