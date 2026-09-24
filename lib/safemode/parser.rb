@@ -59,6 +59,14 @@ module Safemode
       end
     end
 
+    def process_for(exp)
+      _, recv, iter, body = exp
+      receiver = jail(process(recv), true)
+      variable = process(iter)
+      body = process(body) || '# do nothing'
+      "for #{variable} in #{receiver} do\n#{indent(body)}\nend"
+    end
+
     # see http://www.namikilab.tuat.ac.jp/~sasada/prog/rubynodes/nodes.html
 
     allowed =    [ :call, :vcall, :evstr,
