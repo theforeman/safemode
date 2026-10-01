@@ -1,4 +1,31 @@
 module Safemode
+  class PrismCompiler < Prism::Translation::RubyParser.const_get(:Compiler)
+    def visit_pinned_expression_node(node)
+      expression = node.expression.accept(copy_compiler(in_pattern: false))
+      s(node, :pin_expr, expression)
+    end
+
+    private
+
+    def copy_compiler(in_def: self.in_def, in_pattern: self.in_pattern)
+      self.class.new(file, in_def: in_def, in_pattern: in_pattern)
+    end
+  end
+
+  class PrismParser < Prism::Translation::RubyParser
+    private
+
+    def translate(result, filepath)
+      if result.failure?
+        error = result.errors.first
+        raise ::RubyParser::SyntaxError, "#{filepath}:#{error.location.start_line} :: #{error.message}"
+      end
+
+      result.attach_comments!
+      result.value.accept(PrismCompiler.new(filepath))
+    end
+  end
+
   class Parser < Ruby2Ruby
     class << self
       def jail(code, allowed_fcalls = [])
@@ -8,7 +35,7 @@ module Safemode
       end
 
       def parse(code)
-        Prism::Translation::RubyParser.parse(code)
+        PrismParser.parse(code)
       end
     end
 
@@ -81,7 +108,7 @@ module Safemode
                    :op_asgn, :op_asgn1, :op_asgn2, :op_asgn_and, :op_asgn_or,
                    :safe_op_asgn, :safe_op_asgn2,
                    # pattern matching (Ruby 3.0+)
-                   :in, :array_pat, :hash_pat, :find_pat, :kwrest,
+                   :in, :array_pat, :hash_pat, :find_pat, :kwrest, :pin_expr,
                    # needed for haml
                    :block ]
 
@@ -221,6 +248,11 @@ module Safemode
       header = "in #{cond}"
       header << " #{guard}" if guard
       "#{header} then\n#{body.chomp}"
+    end
+
+    def process_pin_expr(exp)
+      _, expression = exp
+      "^(#{process expression})"
     end
 
     # Prism translates guard clauses (in pattern if cond / in pattern unless cond)
