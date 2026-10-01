@@ -4,7 +4,7 @@ require 'date'
 
 Gem::Specification.new do |s|
   s.name = "safemode".freeze
-  s.version = "2.0.1"
+  s.version = "2.0.2"
   s.date = Date.today
 
   s.summary = "A library for safe evaluation of Ruby code based on Prism and Ruby2Ruby"
