@@ -61,7 +61,7 @@ module Safemode
 
     # see http://www.namikilab.tuat.ac.jp/~sasada/prog/rubynodes/nodes.html
 
-    allowed =    [ :call, :vcall, :evstr,
+    ALLOWED_NODES = [ :call, :safe_call, :fcall, :vcall, :evstr, :const, :arglist,
                    :lvar, :dvar, :ivar, :lasgn, :masgn, :dasgn, :dasgn_curr,
                    :lit, :str, :dstr, :dsym, :nil, :true, :false,
                    :array, :zarray, :hash, :dot2, :dot3, :flip2, :flip3,
@@ -83,7 +83,14 @@ module Safemode
                    # pattern matching (Ruby 3.0+)
                    :in, :array_pat, :hash_pat, :find_pat, :kwrest,
                    # needed for haml
-                   :block ]
+                   :block ].freeze
+
+    def process(exp)
+      if exp && !ALLOWED_NODES.include?(exp.sexp_type)
+        raise_security_error(exp.sexp_type, nil)
+      end
+      super
+    end
 
     disallowed = [ # :self,  # self doesn't seem to be needed for vcalls?
                    # see below for :const handling
