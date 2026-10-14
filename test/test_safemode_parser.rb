@@ -114,6 +114,13 @@ class TestSafemodeParser < Test::Unit::TestCase
     assert_match(/in \^y then/, jailed)
   end
 
+  def test_case_in_pin_expression
+    return if Gem::Version.new(RUBY_VERSION) < Gem::Version.new("3.1")
+
+    jailed = jail("case 2; in ^(1 + 1); true; end")
+    assert_match(/in \^\(\(1\.to_jail \+ 1\)\) then/, jailed)
+  end
+
   def test_case_in_body_does_not_pin_variables
     jailed = jail("case x; in [a, b]; a; end")
     lines = jailed.lines
@@ -178,5 +185,4 @@ private
     Safemode::Parser.jail(code)
   end
 end
-
 
