@@ -9,6 +9,7 @@ require 'safemode/blankslate'
 require 'safemode/exceptions'
 require 'safemode/jail'
 require 'safemode/core_jails'
+require 'safemode/ruby_parser'
 require 'safemode/parser'
 require 'safemode/scope'
 
