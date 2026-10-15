@@ -8,7 +8,7 @@ module Safemode
       end
 
       def parse(code)
-        Prism::Translation::RubyParser.parse(code)
+        Safemode::RubyParser.parse(code)
       end
     end
 
@@ -73,6 +73,11 @@ module Safemode
       "for #{variable} in #{receiver} do\n#{indent(body)}\nend"
     end
 
+    def process_pattern_or(exp)
+      _, lhs, rhs = exp
+      "(#{process(lhs)} | #{process(rhs)})"
+    end
+
     # see http://www.namikilab.tuat.ac.jp/~sasada/prog/rubynodes/nodes.html
 
     allowed =    [ :call, :vcall, :evstr,
@@ -95,7 +100,7 @@ module Safemode
                    :op_asgn, :op_asgn1, :op_asgn2, :op_asgn_and, :op_asgn_or,
                    :safe_op_asgn, :safe_op_asgn2,
                    # pattern matching (Ruby 3.0+)
-                   :in, :array_pat, :hash_pat, :find_pat, :kwrest,
+                   :in, :array_pat, :hash_pat, :find_pat, :kwrest, :pattern_or,
                    # needed for haml
                    :block ]
 
