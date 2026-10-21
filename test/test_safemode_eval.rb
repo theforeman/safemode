@@ -23,6 +23,72 @@ class TestSafemodeEval < Test::Unit::TestCase
      assert_equal "1", @box.eval('x = 1; x&.to_s')
    end
 
+  def test_numbered_block_parameters
+    assert_equal [3, 7], @box.eval('[[1, 2], [3, 4]].map { _1 + _2 }')
+    assert_equal [[2]], @box.eval('[[1]].map { |array| array.map { _1 + 1 } }')
+    assert_equal [true], @box.eval('[1].map { case _1; in ^_1; true; else; false; end }')
+  end
+
+  def test_implicit_it_block_parameter
+    omit('Ruby 3.4 syntax') if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('3.4')
+    assert_equal ['A'], @box.eval('["a"].map { it.upcase }')
+    assert_equal [[2]], @box.eval('[[1]].map { it.map { it + 1 } }')
+  end
+
+  def test_explicit_it_parameter_and_local_variable
+    assert_equal [2], @box.eval('[1].map { |it| it + 1 }')
+    assert_equal [4], @box.eval('it = 3; [1].map { it + 1 }')
+  end
+
+  def test_implicit_parameters_still_jail_method_calls
+    assert_raise(Safemode::NoMethodError) do
+      @box.eval('[@article].map { _1.instance_variable_get(:@source) }', @assigns)
+    end
+    return if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('3.4')
+
+    assert_raise(Safemode::NoMethodError) do
+      @box.eval('[@article].map { it.instance_variable_get(:@source) }', @assigns)
+    end
+  end
+
+  def test_methods_named_like_implicit_parameters_are_not_local_variables
+    ['it', 'it()', '_1()', '[1].map { it() }', '[1].map { _1() }'].each do |code|
+      assert_raise(Safemode::SecurityError) { @box.eval(code) }
+    end
+  end
+
+  def test_explicit_it_call_uses_delegate_even_inside_a_block
+    delegate = Object.new
+    def delegate.it
+      42
+    end
+    box = Safemode::Box.new(delegate, [:it])
+    assert_equal [42], box.eval('[1].map { it() }')
+    return if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('3.4')
+
+    assert_equal [2], box.eval('[1].map { it + 1 }')
+    assert_equal [43], box.eval('[1].map { it() + it }')
+  end
+
+  def test_invalid_parameter_syntax_still_raises_parser_error
+    assert_raise(RubyParser::SyntaxError) { @box.eval('[1].map { |n| _1 + n }') }
+    assert_raise(RubyParser::SyntaxError) { @box.eval('[1].map { _1; [2].map { _1 } }') }
+    assert_raise(RubyParser::SyntaxError) { @box.eval('def broken(') }
+  end
+
+  def test_nested_pattern_alternation
+    assert_equal true, @box.eval('case [1, 2]; in [1 | 3, 2]; true; else; false; end')
+    assert_equal true, @box.eval('case({a: 2}); in {a: 1 | 2}; true; else; false; end')
+    assert_equal true, @box.eval('case [1, 2]; in [1 | 3, 2] if false or true; true; else; false; end')
+    assert_equal true, @box.eval('case [1]; in [1]; case [2]; in [1 | 2]; true; end; end')
+    assert_equal false, @box.eval('false or false or false')
+  end
+
+  def test_inline_pattern_matching_in_case_branch
+    assert_equal true, @box.eval('case "x"; in 0; false; in String; x = "x"; x.upcase in String; true; end')
+    assert_equal 'after', @box.eval('case "x"; in 0; false; in String; x = "x"; x.upcase in String; "after"; end')
+  end
+
   def test_unary_operators_on_instances_of_boolean_vars
     assert @box.eval('not false')
     assert @box.eval('!false')
