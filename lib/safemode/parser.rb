@@ -92,6 +92,9 @@ module Safemode
                    :argscat, :argspush, :splat, :kwsplat,
                    # local variable logical assignments
                    :op_asgn_and, :op_asgn_or,
+                   # object logical assignments; handlers below reject other operators
+                   :op_asgn, :op_asgn1, :op_asgn2,
+                   :safe_op_asgn, :safe_op_asgn2,
                    # pattern matching (Ruby 3.0+)
                    :in, :array_pat, :hash_pat, :find_pat, :kwrest,
                    # needed for haml
@@ -113,10 +116,6 @@ module Safemode
                    :defined, :super, :zsuper, :return,
                    :dmethod, :bmethod, :to_ary, :svalue, :match,
                    :attrasgn, :safe_attrasgn,
-                   # Compound assignments to attributes and indexed elements
-                   # bypass Jail for implicit getter, setter, and operator calls.
-                   :op_asgn, :op_asgn1, :op_asgn2,
-                   :safe_op_asgn, :safe_op_asgn2,
                    :cdecl, :cvasgn, :cvdecl, :cvar, :gvar, :gasgn,
                    :xstr, :dxstr,
                    # not sure how secure ruby regexp is, so leave it out for now
@@ -155,6 +154,52 @@ module Safemode
 
     def raise_security_error(type, info)
       raise Safemode::SecurityError.new(type, info)
+    end
+
+    LOGICAL_ASSIGNMENT_OPERATORS = [:"||", :"&&"].freeze
+
+    def process_op_asgn(exp)
+      return raise_security_error(:op_asgn, super(exp)) unless LOGICAL_ASSIGNMENT_OPERATORS.include?(exp[4])
+
+      _, receiver, rhs, name, operator = exp
+      process_logical_attribute_assignment(receiver, name, operator, rhs)
+    end
+
+    def process_safe_op_asgn(exp)
+      return raise_security_error(:safe_op_asgn, super(exp)) unless LOGICAL_ASSIGNMENT_OPERATORS.include?(exp[4])
+
+      _, receiver, rhs, name, operator = exp
+      process_logical_attribute_assignment(receiver, name, operator, rhs, true)
+    end
+
+    def process_op_asgn2(exp)
+      return raise_security_error(:op_asgn2, super(exp)) unless LOGICAL_ASSIGNMENT_OPERATORS.include?(exp[3])
+
+      _, receiver, name, operator, rhs = exp
+      process_logical_attribute_assignment(receiver, name, operator, rhs)
+    end
+
+    def process_safe_op_asgn2(exp)
+      return raise_security_error(:safe_op_asgn2, super(exp)) unless LOGICAL_ASSIGNMENT_OPERATORS.include?(exp[3])
+
+      _, receiver, name, operator, rhs = exp
+      process_logical_attribute_assignment(receiver, name, operator, rhs, true)
+    end
+
+    def process_op_asgn1(exp)
+      return raise_security_error(:op_asgn1, super(exp)) unless LOGICAL_ASSIGNMENT_OPERATORS.include?(exp[3])
+
+      _, receiver, index, operator, rhs = exp
+      receiver = jail(process_call_receiver(receiver))
+      "#{receiver}[#{process index}] #{operator}= #{process rhs}"
+    end
+
+    def process_logical_attribute_assignment(receiver, name, operator, rhs, safe_call = false)
+      receiver = jail(process_call_receiver(receiver), safe_call: safe_call)
+      name = name.to_s.sub(/=$/, "")
+      dot = safe_call ? "&." : "."
+
+      "#{receiver}#{dot}#{name} #{operator}= #{process rhs}"
     end
 
     # split up Ruby2Ruby#process_call monster method so we can hook into it

@@ -73,8 +73,8 @@ class TestSafemodeParser < Test::Unit::TestCase
     end
   end
 
-  def test_attribute_compound_assignments_are_disabled
-    operators = %w[|| && + - * / % ** & | ^ << >>]
+  def test_attribute_operator_compound_assignments_are_disabled
+    operators = %w[+ - * / % ** & | ^ << >>]
 
     operators.each do |operator|
       assert_raise(Safemode::SecurityError, "#{operator}= should be disabled") do
@@ -83,21 +83,36 @@ class TestSafemodeParser < Test::Unit::TestCase
     end
   end
 
-  def test_all_object_compound_assignment_nodes_are_disabled
+  def test_all_object_operator_compound_assignment_nodes_are_disabled
     [
       '@article.title += 1',
       '@article&.title += 1',
       '@article[0] += 1',
-      '@article[0] ||= 1',
       '@article.title += helper 1',
       '@article&.title += helper 1',
       '@article::title += 1',
       '[1][0] += 1',
-      '({ key: 1 })[:key] ||= 2',
     ].each do |code|
       assert_raise(Safemode::SecurityError, "#{code} should be disabled") do
         jail(code)
       end
+    end
+  end
+
+  def test_object_logical_compound_assignments_are_allowed
+    [
+      '@article.title ||= 1',
+      '@article.title &&= 1',
+      '@article&.title ||= 1',
+      '@article&.title &&= 1',
+      '@article[0] ||= 1',
+      '@article[0] &&= 1',
+      '@article.title ||= helper 1',
+      '@article&.title ||= helper 1',
+      '[nil][0] ||= 1',
+      '({ key: nil })[:key] ||= 1',
+    ].each do |code|
+      assert_nothing_raised("#{code} should be allowed") { jail(code) }
     end
   end
 
