@@ -49,6 +49,12 @@ end
 This will allow your template users to access the name method on your User 
 objects.
 
+Safemode rejects compound assignments to object attributes and indexed
+elements, including safe-navigation forms. For example, `user.name ||= value`
+and `values[0] += value` raise `Safemode::SecurityError`, even when the
+corresponding methods are allowed by a Jail. Compound assignments to local
+variables remain supported and their method calls are mediated by Jail.
+
 Class methods can be whitelisted by calling `allow_class_method :foo` from
 within the Jail. Note that access to raw constants is not permitted, so the
 class is only accessible when returned by a method or passed into a template.

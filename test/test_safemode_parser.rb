@@ -73,9 +73,31 @@ class TestSafemodeParser < Test::Unit::TestCase
     end
   end
 
-  def test_safe_op_asgn2_is_allowed
-    assert_nothing_raised do
-      jail('@article&.title ||= "new_value"')
+  def test_attribute_compound_assignments_are_disabled
+    operators = %w[|| && + - * / % ** & | ^ << >>]
+
+    operators.each do |operator|
+      assert_raise(Safemode::SecurityError, "#{operator}= should be disabled") do
+        jail("@article.title #{operator}= 1")
+      end
+    end
+  end
+
+  def test_all_object_compound_assignment_nodes_are_disabled
+    [
+      '@article.title += 1',
+      '@article&.title += 1',
+      '@article[0] += 1',
+      '@article[0] ||= 1',
+      '@article.title += helper 1',
+      '@article&.title += helper 1',
+      '@article::title += 1',
+      '[1][0] += 1',
+      '({ key: 1 })[:key] ||= 2',
+    ].each do |code|
+      assert_raise(Safemode::SecurityError, "#{code} should be disabled") do
+        jail(code)
+      end
     end
   end
 

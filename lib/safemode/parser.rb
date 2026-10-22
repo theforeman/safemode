@@ -90,10 +90,8 @@ module Safemode
                    :colon2,
                    # unnecessarily advanced?
                    :argscat, :argspush, :splat, :kwsplat,
-                   # NOTE: op_asgn*/safe_op_asgn* do not insert .to_jail on the
-                   # receiver. Setters are called directly on the real object, bypassing Jail.
-                   :op_asgn, :op_asgn1, :op_asgn2, :op_asgn_and, :op_asgn_or,
-                   :safe_op_asgn, :safe_op_asgn2,
+                   # local variable logical assignments
+                   :op_asgn_and, :op_asgn_or,
                    # pattern matching (Ruby 3.0+)
                    :in, :array_pat, :hash_pat, :find_pat, :kwrest,
                    # needed for haml
@@ -115,6 +113,10 @@ module Safemode
                    :defined, :super, :zsuper, :return,
                    :dmethod, :bmethod, :to_ary, :svalue, :match,
                    :attrasgn, :safe_attrasgn,
+                   # Compound assignments to attributes and indexed elements
+                   # bypass Jail for implicit getter, setter, and operator calls.
+                   :op_asgn, :op_asgn1, :op_asgn2,
+                   :safe_op_asgn, :safe_op_asgn2,
                    :cdecl, :cvasgn, :cvdecl, :cvar, :gvar, :gasgn,
                    :xstr, :dxstr,
                    # not sure how secure ruby regexp is, so leave it out for now
