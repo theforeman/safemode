@@ -43,6 +43,7 @@ Gem::Specification.new do |s|
     "lib/safemode/exceptions.rb",
     "lib/safemode/jail.rb",
     "lib/safemode/parser.rb",
+    "lib/safemode/ruby_parser.rb",
     "lib/safemode/scope.rb",
     "safemode.gemspec",
     "test/test_erb_eval.rb",
@@ -57,7 +58,8 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 3.0", "< 3.4"
 
   s.add_runtime_dependency "ruby2ruby", "~> 2.4"
-  s.add_runtime_dependency "prism", "~> 1.0"
+  # 1.9.0 predates the inline-pattern fix released in the 1.8.1 patch line.
+  s.add_runtime_dependency "prism", "~> 1.8.1"
   s.add_runtime_dependency "sexp_processor", "~> 4.10"
 
   s.add_development_dependency "rake", "~> 13.4"
